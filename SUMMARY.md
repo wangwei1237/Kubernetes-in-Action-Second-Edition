@@ -14,6 +14,8 @@
 * [1.4 Summary](docs/Summary_1.md)
 
 ### 2. Understanding containers
+* [2 Understanding containers](docs/Understanding_containers.md)
+* [2.1 Introducing containers](docs/Introducing_containers.md)
 
 
 
