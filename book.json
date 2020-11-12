@@ -1,0 +1,70 @@
+{
+  "author": "wangwei17",
+  "description": "Kubernetes实战（第二版）",
+  "extension": null,
+  "generator": "site",
+  "isbn": "",
+  "links": {
+    "sharing": {
+      "all": null,
+      "facebook": null,
+      "google": null,
+      "twitter": null,
+      "weibo": null
+    },
+    "sidebar": {
+        "17哥的个人网站": "https://wangwei1237.gitee.io/"
+    }
+  },
+  "output": null,
+  "pdf": {
+    "fontSize": 16,
+    "footerTemplate": null,
+    "headerTemplate": null,
+    "margin": {
+      "bottom": 36,
+      "left": 62,
+      "right": 62,
+      "top": 36
+    },
+    "pageNumbers": true,
+    "paperSize": "a4"
+  },
+  "plugins": ["page-toc-button", 
+              "tbfed-pagefooter", 
+              "cnzz", 
+              "hints",
+              "sitemap-general"],
+  "pluginsConfig": {
+      "theme-default": {
+        "showLevel": false
+    },
+    "fontsettings": {
+        "theme": "white",
+        "family": "serif"
+    },
+    "page-toc-button": {
+        "maxTocDepth": 2,
+        "minTocSize": 2
+    },
+    "tbfed-pagefooter": {
+      "copyright":"Copyrights &copy wangwei"
+    }, 
+    "cnzz": {
+      "visible": true,
+      "style": "1",
+        "siteid": "1278605528"
+    },
+    "hints": {
+      "info": "fa fa-info-circle",
+      "tip": "fa fa-sticky-note",
+      "danger": "fa fa-bug",
+      "working": "fa fa-cog fa-spin"
+    },
+    "sitemap-general": {
+      "prefix": "https://wangwei1237.gitee.io/kubernetes-in-action-second-edition"
+    }
+  },
+  "title": "Kubernetes实战（第二版）",
+  "variables": {}
+}
