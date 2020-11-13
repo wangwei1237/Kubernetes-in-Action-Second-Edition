@@ -15,6 +15,7 @@
 * [2 Understanding containers](docs/Understanding_containers.md)
     * [2.1 Introducing containers](docs/Introducing_containers.md)
 
+
 ### Part 2: Learning the Ropes: Kubernetes API Objects
 * [4. Introducing the Kubernetes API Objects](docs/Introducing_the_Kubernetes_API_Objects.md)
     * [4.1 Getting familiar with the Kubernetes API](docs/Getting_familiar_with_the_Kubernetes_API.md)
