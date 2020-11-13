@@ -17,6 +17,10 @@
 
 ### Part 2: Learning the Ropes: Kubernetes API Objects
 * [4. Introducing the Kubernetes API Objects](docs/Introducing_the_Kubernetes_API_Objects.md)
+    * [4.1 Getting familiar with the Kubernetes API](docs/Getting_familiar_with_the_Kubernetes_API.md)
+    * [4.2 Examining an object’s individual properties](docs/Examining_an_objects_individual_properties.md)
+    * [4.3 Observing cluster events via Event objects](docs/Observing_cluster_events_via_Event_objects.md)
+    * [4.4 Summary](docs/Summary_4.md)
 
 
 
