@@ -30,8 +30,7 @@
     "pageNumbers": true,
     "paperSize": "a4"
   },
-  "plugins": ["page-toc-button", 
-              "tbfed-pagefooter", 
+  "plugins": ["page-toc-button",  
               "cnzz", 
               "hints",
               "sitemap-general"],
@@ -47,9 +46,6 @@
         "maxTocDepth": 2,
         "minTocSize": 2
     },
-    "tbfed-pagefooter": {
-      "copyright":"Copyrights &copy wangwei"
-    }, 
     "cnzz": {
       "visible": true,
       "style": "1",

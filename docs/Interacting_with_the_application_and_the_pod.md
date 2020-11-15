@@ -223,7 +223,162 @@ $ kubectl cp /path/to/local/file kubia:path/in/container
 {% hint style='info' %}
 NOTE
 
-///////TODO
+The `kubectl cp` command requires the `tar` binary to be present in your container, but this requirement may change in the future.
 {% endhint %}
 
-5.3.4   Executing commands in running containers
+## Executing commands in running containers
+When debugging an application running in a container, it may be necessary to examine the container and its environment from the inside. Kubectl provides this functionality, too. You can execute any binary file present in the container’s file system using the `kubectl exec` command.
+
+### Invoking a single command in the container
+For example, you can list the processes running in the container in the `kubia` pod by running the following command:
+
+```shell
+Listing 5.6 Processes running inside a pod container
+$ kubectl exec kubia -- ps aux
+USER  PID %CPU %MEM    VSZ   RSS TTY STAT START TIME COMMAND
+root    1  0.0  1.3 812860 27356 ?   Ssl  11:54 0:00 node app.js
+root  120  0.0  0.1  17500  2128 ?   Rs   12:22 0:00 ps aux
+```
+
+This is the Kubernetes equivalent of the Docker command you used to explore the processes in a running container in chapter 2. It allows you to remotely run a command in any pod without having to log in to the node that hosts the pod. If you’ve used ssh to execute commands on a remote system, you’ll see that `kubectl` `exec` is not much different.
+
+In section 5.3.1 you executed the `curl` command in a one-off client pod to send a request to your application, but you can also run the command inside the `kubia` pod itself:
+
+```shell
+$ kubectl exec kubia -- curl -s localhost:8080
+Hey there, this is kubia. Your IP is ::1.
+```
+
+#### Why use a double dash in the kubectl exec command?
+The double dash (`--`) in the command delimits kubectl arguments from the command to be executed in the container. The use of the double dash isn’t necessary if the command has no arguments that begin with a dash. If you omit the double dash in the previous example, the `-s` option is interpreted as an option for `kubectl` `exec` and results in the following misleading error:
+
+```shell
+$ kubectl exec kubia curl -s localhost:8080
+```
+
+The connection to the server localhost:8080 was refused – did you specify the right host or port?
+
+This may look like the Node.js server is refusing to accept the connection, but the issue lies elsewhere. The curl command is never executed. The error is reported by `kubectl` itself when it tries to talk to the Kubernetes API server at `localhost:8080`, which isn’t where the server is. If you run the `kubectl options` command, you’ll see that the `-s` option can be used to specify the address and port of the Kubernetes API server. Instead of passing that option to curl, kubectl adopted it as its own. Adding the double dash prevents this.
+
+Fortunately, to prevent scenarios like this, newer versions of kubectl are set to return an error if you forget the double dash.
+
+### Running an interactive shell in the container
+The two previous examples showed how a single command can be executed in the container. When the command completes, you are returned to your shell. If you want to run several commands in the container, you can run a shell in the container as follows:
+
+```shell
+$ kubectl exec -it kubia -- bash
+root@kubia:/#
+```
+
+The `-it` is short for two options: `-i` and `-t`, which indicate that you want to execute the `bash` command interactively by passing the standard input to the container and marking it as a terminal (TTY).
+
+You can now explore the inside of the container by executing commands in the shell. For example, you can view the files in the container by running `ls -la`, view its network interfaces with `ip link`, or test its connectivity with `ping`. You can run any tool available in the container.
+
+### Not all containers allow you to run shells
+The container image of your application contains many important debugging tools, but this isn’t the case with every container image. To keep images small and improve security in the container, most containers used in production don’t contain any binary files other than those required for the container’s primary process. This significantly reduces the attack surface, but also means that you can’t run shells or other tools in production containers. Fortunately, a new Kubernetes feature called ephemeral containers allows you to debug running containers by attaching a debug container to them.
+
+{% hint style='info' %}
+NOTE TO MEAP READERS
+
+Ephemeral containers are currently an alpha feature, which means they may change or even be removed at any time. This is also why they are currently not explained in this book. If they graduate to beta before the book goes into production, a section explaining them will be added.
+{% endhint %}
+
+
+## Attaching to a running container
+The `kubectl attach` command is another way to interact with a running container. It attaches itself to the standard input, output and error streams of the main process running in the container. Normally, you only use it to interact with applications that read from the standard input.
+
+### Using kubectl attach to see what the application prints to standard output
+If the application doesn’t read from standard input, the `kubectl attach` command is only an alternative way to stream the application logs, as these are typically written to the standard output and error streams, and the `attach` command streams them just like the `kubectl logs -f` command does.
+
+Attach to your `kubia` pod by running the following command:
+
+```shell
+$ kubectl attach kubia
+Defaulting container name to kubia.
+Use 'kubectl describe pod/kubia -n default' to see all of the containers in this pod.
+If you don't see a command prompt, try pressing enter.
+```
+
+Now, when you send new HTTP requests to the application using `curl` in another terminal, you’ll see the lines that the application logs to standard output also printed in the terminal where the `kubectl` `attach` command is executed.
+
+### Using kubectl attach to write to the application’s standard input
+The kubia application doesn’t read from the standard input stream, but you’ll find another version of the application that does this in the book’s code archive. You can change the greeting with which the application responds to HTTP requests by writing it to the standard input stream of the application. Let’s deploy this version of the application in a new pod and use the `kubectl` `attach` command to change the greeting.
+
+You can find the artifacts required to build the image in the `kubia-stdin-image/` directory, or you can use the pre-built image `docker.io/luksa/kubia:1.0-stdin`. The pod manifest is in the file `kubia-stdin.yaml`. It is only slightly different from the pod manifest in `kubia.yaml` that you deployed previously. The differences are highlighted in the following listing.
+
+```YAML
+Listing 5.7 Enabling standard input for a container
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubia-stdin
+spec:
+  containers:
+  - name: kubia
+    image: luksa/kubia:1.0-stdin
+    stdin: true
+    ports:
+    - containerPort: 8080
+```
+
+As you can see in the listing, if the application running in a pod wants to read from standard input, you must indicate this in the pod manifest by setting the `stdin` field in the container definition to `true`. This tells Kubernetes to allocate a buffer for the standard input stream, otherwise the application will always receive an `EOF` when it tries to read from it.
+
+Create the pod from this manifest file with the `kubectl apply` command:
+
+```shell
+$ kubectl apply -f kubia-stdin.yaml
+pod/kubia-stdin created
+```
+
+To enable communication with the application, use the `kubectl port-forward` command again, but because the local port `8080` is still being used by the previously executed `port-forward` command, you must either terminate it or choose a different local port to forward to the new pod. You can do this as follows:
+
+```shell
+$ kubectl port-forward kubia-stdin 8888:8080
+Forwarding from 127.0.0.1:8888 -> 8080
+Forwarding from [::1]:8888 -> 8080
+```
+
+The command-line argument `8888:8080` instructs the command to forward local port `8888` to the pod’s port `8080`.
+
+You can now reach the application at http://localhost:8888:
+
+```shell
+$ curl localhost:8888
+Hey there, this is kubia-stdin. Your IP is ::ffff:127.0.0.1.
+```
+
+Let’s change the greeting from “Hey there” to “Howdy” by using `kubectl attach` to write to the standard input stream of the application. Run the following command:
+
+```shell
+$ kubectl attach -i kubia-stdin
+```
+
+Note the use of the additional option `-i` in the command. It instructs `kubectl` to pass its standard input to the container.
+
+{% hint style='info' %}
+NOTE
+
+Like the `kubectl` `exec` command, `kubectl` `attach` also supports the `--tty` or `-t` option, which indicates that the standard input is a terminal (TTY), but the container must be configured to allocate a terminal through the `tty` field in the container definition.
+{% endhint %}
+
+You can now enter the new greeting into the terminal and press the ENTER key. The application should then respond with the new greeting:
+
+```shell
+Howdy
+Greeting set to: Howdy
+```
+
+To see if the application now responds to HTTP requests with the new greeting, re-execute the `curl` command or refresh the page in your web browser:
+
+```shell
+$ curl localhost:8888
+Howdy, this is kubia-stdin. Your IP is ::ffff:127.0.0.1.
+```
+
+There’s the new greeting. You can change it again by typing another line in the terminal with the `kubectl attach` command. To exit the `attach` command, press Control-C or the equivalent key.
+
+{% hint style='info' %}
+NOTE
+
+An additional field in the container definition, `stdinOnce`, determines whether the standard input channel is closed when the attach session ends. It’s set to `false` by default, which allows you to use the standard input in every `kubectl attach` session. If you set it to `true`, standard input remains open only during the first session.
+{% endhint %}
