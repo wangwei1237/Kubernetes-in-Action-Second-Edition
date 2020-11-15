@@ -27,10 +27,10 @@
     * [2.2.7 Stopping and deleting containers](Stopping_and_deleting_containers.md)
     * [2.3 Understanding what makes containers possible](Understanding_what_makes_containers_possible.md)
     * [2.3.1 Using Namespaces to customize the environment of a process](Using_Namespaces_to_customize_the_environment_of_a_process.md)
-    * [2.3.2 Exploring the environment of a running container](Exploring_the_environment_of_a_running_container.md)
+    * [2.3.2 Exploring the environment of a running container](Exploring_the_environment_of_a_running_container_2.md)
     * [2.3.3 Limiting a process’ resource usage with Linux Control Groups](Limiting_a_process’_resource_usage_with_Linux_Control_Groups.md)
     * [2.3.4 Strengthening isolation between containers](Strengthening_isolation_between_containers.md)
-    * [2.4 Summary](2_4_Summary.md)
+    * [2.4 Summary](Summary_2.md)
 
 ### Part 2: Learning the Ropes: Kubernetes API Objects
 * [4. Introducing the Kubernetes API Objects](docs/Introducing_the_Kubernetes_API_Objects.md)
