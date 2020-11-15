@@ -14,7 +14,23 @@
     * [1.4 Summary](docs/Summary_1.md)
 * [2 Understanding containers](docs/Understanding_containers.md)
     * [2.1 Introducing containers](docs/Introducing_containers.md)
-
+    * [2.1.1 Comparing containers to virtual machines](Comparing_containers_to_virtual_machines.md)
+    * [2.1.2 Introducing the Docker container platform](Introducing_the_Docker_container_platform.md)
+    * [2.1.3 Introducing Docker alternatives and the Open Container Initiative](Introducing_Docker_alternatives_and_the_Open_Container_Initiative.md)
+    * [2.2 Exploring containers hands-on](Exploring_containers_hands-on.md)
+    * [2.2.1 Installing Docker and running a Hello World container][Installing_Docker_and_running_a_Hello_World_container.md]
+    * [2.2.2 Creating a containerized Node.js web application](Creating_a_containerized_Node.js_web_application.md)
+    * [2.2.3 Creating a Dockerfile to build the container image](Creating_a_Dockerfile_to_build_the_container_image.md)
+    * [2.2.4 Building the container image](Building_the_container_image.md)
+    * [2.2.5 Running the container image](Running_the_container_image.md)
+    * [2.2.6 Distributing container images](Distributing_container_images.md)
+    * [2.2.7 Stopping and deleting containers](Stopping_and_deleting_containers.md)
+    * [2.3 Understanding what makes containers possible](Understanding_what_makes_containers_possible.md)
+    * [2.3.1 Using Namespaces to customize the environment of a process](Using_Namespaces_to_customize_the_environment_of_a_process.md)
+    * [2.3.2 Exploring the environment of a running container](Exploring_the_environment_of_a_running_container.md)
+    * [2.3.3 Limiting a process’ resource usage with Linux Control Groups](Limiting_a_process’_resource_usage_with_Linux_Control_Groups.md)
+    * [2.3.4 Strengthening isolation between containers](Strengthening_isolation_between_containers.md)
+    * [2.4 Summary](2_4_Summary.md)
 
 ### Part 2: Learning the Ropes: Kubernetes API Objects
 * [4. Introducing the Kubernetes API Objects](docs/Introducing_the_Kubernetes_API_Objects.md)
