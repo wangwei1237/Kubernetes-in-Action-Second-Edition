@@ -24,6 +24,7 @@ Check the documentation to see what the latest version is and use it instead of 
 
 {% hint style='info' %}
 NOTE
+
  Docker must be installed on your system to use kind.
 {% endhint %}
 

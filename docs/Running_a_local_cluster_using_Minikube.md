@@ -17,7 +17,7 @@ On macOS you can install it using the Brew Package Manager, on Windows there’s
 $ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube
 [CA] -linux-amd64 && sudo install minikube-linux-amd64 /usr/local/bin/mini
 [CA] kube
-copy
+
 ```
 
 For details on your specific OS, please refer to the installation guide online.
@@ -48,7 +48,9 @@ The process may take several minutes, because the VM image and the container ima
 {% hint style='info' %}
 TIP
 
-If you use Linux, you can reduce the resources required by Minikube by creating the cluster without a VM. Use this command: minikube start --vm-driver none
+If you use Linux, you can reduce the resources required by Minikube by creating the cluster without a VM. Use this command: 
+`minikube start --vm-driver none`
+
 {% endhint %}
 
 
@@ -78,6 +80,7 @@ You can run minikube ssh to log into the Minikube VM and explore it from inside.
 {% hint style='info' %}
 TIP
   If you want to list containers using your local docker CLI instance, as in the case of Docker Desktop, run the following command: 
-  `eval $(minikube docker-env)`
+  
+	`eval $(minikube docker-env)`
   
 {% endhint %}
