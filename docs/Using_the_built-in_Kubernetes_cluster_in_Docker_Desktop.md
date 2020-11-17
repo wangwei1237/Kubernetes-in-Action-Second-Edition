@@ -3,6 +3,7 @@ If you use macOS or Windows, you’ve most likely installed Docker Desktop to ru
 
 {% hint style='info' %}
 NOTE
+
   Although technically not a cluster, the single-node Kubernetes system provided by Docker Desktop should be enough to explore most of the topics discussed in this book. When an exercise requires a multi-node cluster, I will point this out.
 {% endhint %}
 
@@ -12,6 +13,7 @@ Assuming Docker Desktop is already installed on your computer, you can start the
 
 {% hint style='info' %}
 NOTE
+
   The initial installation of the cluster takes several minutes, as all container images for the Kubernetes components must be downloaded.
 {% endhint %}
 
