@@ -54,7 +54,12 @@
     * [5.5 Running additional containers at pod startup](docs/Running_additional_containers_at_pod_startup.md)
     * [5.6 Deleting pods and other objects](docs/Deleting_pods_and_other_objects.md)
     * [5.7 Summary](docs/Summary_5.md)
-
+* [6. Managing the lifecycle of the Pod’s containers](docs/Managing_the_lifecycle_of_the_Pods_containers.md)
+    * [6.1 Understanding the pod's status](docs/Understanding_the_pods_status.md)
+    * [6.2 Keeping containers healthy](docs/Keeping_containers_healthy.md)
+    * [6.3 Executing actions at container start-up and shutdown](docs/Executing_actions_at_container_startup_and_shutdown.md)
+    * [6.4 Understanding the pod lifecycle](docs/Understanding_the_pod_lifecycle.md)
+    * [6.5 Summary](docs/Summary_6.md)
 
 
 
