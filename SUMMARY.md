@@ -1,7 +1,6 @@
 # Summary
 
-### 0. 前言
-* [0.1 前言](README.md)
+* [前言](README.md)
 
 ### Welcome
 * [Welcome](docs/Welcome.md)
