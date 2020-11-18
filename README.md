@@ -2,6 +2,8 @@
 
 ![](images/Luksa-Kubernetes-2ed-MEAP-HI.png)
 
+![](images/MEAP.jpg)
+
 {% hint style='info' %}
 本书仅作为学习、了解、推广Kubernetes而摘录，仅可用于个人学习。
 

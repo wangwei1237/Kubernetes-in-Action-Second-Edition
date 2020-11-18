@@ -46,6 +46,12 @@
     * [6.3 Executing actions at container start-up and shutdown](docs/Executing_actions_at_container_startup_and_shutdown.md)
     * [6.4 Understanding the pod lifecycle](docs/Understanding_the_pod_lifecycle.md)
     * [6.5 Summary](docs/Summary_6.md)
+* [8. Persisting application data with PersistentVolumes](docs/Persisting_application_data_with_PersistentVolumes.md)
+    * [8.1 Decoupling pods from the underlying storage technology](docs/Decoupling_pods_from_the_underlying_storage_technology.md)
+    * [8.2 Creating persistent volumes and claims](docs/Creating_persistent_volumes_and_claims.md)
+    * [8.3 Dynamic provisioning of persistent volumes](docs/Dynamic_provisioning_of_persistent_volumes.md)
+    * [8.4 Node-local persistent volumes](docs/Nodelocal_persistent_volumes.md)
+    * [8.5 Summary](docs/Summary_8.md)
 
 
 
