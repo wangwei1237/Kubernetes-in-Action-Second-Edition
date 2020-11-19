@@ -251,3 +251,134 @@ If you’re using another cloud provider, check their documentation to find the 
 Create the StorageClass object by applying this manifest to your cluster and list the available storage classes to confirm that more than one is now available.
 
 ## Requesting the storage class in a persistent volume claim
+Whenever more than one storage class is available in your Kubernetes cluster, you can explicitly specify which of them the claim should use. You’ve already learned that this is done using the `storageClassName` field in the PersistentVolumeClaim object. Let’s conclude this section on dynamic provisioning by creating a persistent volume claim that will allow your MongoDB pod to use an SSD disk.
+
+### Claiming a volume of a specific storage class
+The following listing shows the updated YAML definition of the mongodb-pvc claim requesting the storage class fast. You can find it in the mongodb-pvc-dynamic-fast.yaml file in the book’s GitHub repository.
+
+```YAML
+Listing 8.11 A persistent volume claim requesting a specific storage class
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongodb-pvc-fast
+spec:
+  storageClassName: fast           #A
+  resources:
+    requests:
+      storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+```
+
+\#A This claim requests that this specific storage class be used to provision the volume.
+
+Rather than just specifying the size and access modes and letting the system use the default storage class to provision the persistent volume, this claim specifies that the storage class `fast` be used for the volume. When you create the claim, the persistent volume is created by the provisioner referenced in this storage class.
+
+You can now use this claim in a new MongoDB pod. If you run this example on GKE, the pod will use an SSD volume.
+
+{% hint style='info' %}
+NOTE 
+
+If a persistent volume claim refers to a non-existent storage class, the claim remains `Pending` until the storage class is created. Kubernetes attempts to bind the claim at regular intervals, generating a `ProvisioningFailed` event each time. You can see the event if you execute the `kubectl` `describe` command on the claim.
+{% endhint %}
+
+## Resizing persistent volumes
+If the cluster supports dynamic provisioning, a cluster user can self-provision a storage volume with the properties and size specified in the claim and referenced storage class. If the user later needs a different storage class for their volume, they must, as you might expect, create a new persistent volume claim that references the other storage class. Kubernetes does not support changing the storage class name in an existing claim. If you try to do so, you receive the following error message:
+
+```shell
+* spec: Forbidden: is immutable after creation except resources.requests for bound claims
+```
+
+The error indicates that the majority of the claim’s specification is immutable. The part that is mutable is `spec.resources.requests`, which is where you indicate the desired size of the volume.
+
+In the previous MongoDB examples you requested 1GiB of storage space. Now imagine that the database grows near this size. Can the volume be resized without restarting the pod and application? Let’s find out.
+
+### Requesting a larger volume in an existing persistent volume claim
+If you use dynamic provisioning, you can generally change the size of a persistent volume simply by requesting a larger capacity in the associated claim. For the next exercise, you’ll increase the size of the volume by modifying the `mongodb-pvc-default` claim, which should still exist in your cluster.
+
+To modify the claim, either edit the manifest file or create a copy and then edit it. Set the `spec.resources.requests.storage` field to 10Gi as shown in the following listing. You can find this manifest in the book’s GitHub repository (file mongodb-pvc-dynamic-default-10gib.yaml).
+
+```YAML
+Listing 8.12 Requesting a larger volume
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongodb-pvc-default           #A
+spec:                       
+  resources:                          #B
+    requests:                         #B
+      storage: 10Gi                   #B
+  accessModes:              
+    - ReadWriteOnce
+```
+
+\#A Ensure that the name matches the name of the existing claim.
+
+\#B Request a larger amount of storage.
+
+When you apply this file with the `kubectl apply` command, the existing PersistentVolumeClaim object is updated. Use the kubectl get pvc command to see if the volume’s capacity has increased:
+
+```shell
+$ kubectl get pvc mongodb-pvc-default
+NAME                  STATUS   VOLUME         CAPACITY   ACCESS MODES   ...
+mongodb-pvc-default   Bound    pvc-ed36b...   1Gi        RWO            ...
+```
+
+You may recall that when claims are listed, the `CAPACITY` column displays the size of the bound volume and not the size requirement specified in the claim. According to the output, this means that the size of the volume hasn’t changed. Let’s find out why.
+
+### Determining why the volume hasn’t been resized
+To find out why the size of the volume has remained the same regardless of the change you made to the claim, the first thing you might do is inspect the claim using `kubectl` `describe`.  If this is the case, you’ve already got the hang of debugging objects in Kubernetes. You’ll find that one of the claim’s conditions clearly explains why the volume was not resized:
+
+```shell
+$ kubectl describe pvc mongodb-pvc-default
+...
+Conditions:
+  Type                      Status  ... Message
+  ----                      ------  ... -------
+  FileSystemResizePending   True        Waiting for user to (re-)start a
+                                        pod to finish file system resize of
+                                        volume on node.
+```
+
+To resize the persistent volume, you need to delete and recreate the pod that uses the claim. After you do this, the claim and the volume will display the new size:
+
+```shell
+$ kubectl get pvc mongodb-pvc-default
+NAME                  STATUS   VOLUME         CAPACITY   ACCESS MODES   ...
+mongodb-pvc-default   Bound    pvc-ed36b...   10Gi        RWO           ...
+```
+
+### Allowing and disallowing volume expansion in the storage class
+The previous example shows that cluster users can increase the size of the bound persistent volume by changing the storage requirement in the persistent volume claim. However, this is only possible if it’s supported by the provisioner and the storage class.
+
+When the cluster administrator creates a storage class, they can use the `spec.allowVolumeExpansion` field to indicate whether volumes of this class can be resized. If you attempt to expand a volume that you’re not supposed to expand, the API server immediately rejects the update operation on the claim.
+
+## Understanding the benefits of dynamic provisioning
+This section on dynamic provisioning should convince you that automating the provisioning of persistent volumes benefits both the cluster administrator and anyone who uses the cluster to deploy applications. By setting up the dynamic volume provisioner and configuring several storage classes with different performance or other features, the administrator gives cluster users the ability to provision as many persistent volumes of any type as they want. Each developer decides which storage class is best suited for each claim they create.
+
+### Understanding how storage classes allow claims to be portable
+Another great thing about storage classes is that claims refer to them by name. If the storage classes are named appropriately, such as `standard`, `fast`, and so on, the persistent volume claim manifests are portable across different clusters.
+
+{% hint style='info' %}
+NOTE
+
+Remember that persistent volume claims are usually part of the application manifest and are written by application developers.
+{% endhint %}
+
+If you used GKE to run the previous examples, you can now try to deploy the same claim and pod manifests in a non-GKE cluster, such as a cluster created with Minikube or kind. In this way, you can see this portability for yourself. The only thing you need to ensure is that all your clusters use the storage class names.
+
+## Understanding the lifecycle of dynamically provisioned persistent volumes
+To conclude this section on dynamic provisions, let’s take one final look at the lifecycles of the underlying storage volume, the PersistentVolume object, the associated PersistentVolumeClaim object, and the pods that use them, like we did in the previous section on statically provisioned volumes.
+
+Figure 8.10 The lifecycle of dynamically provisioned persistent volumes, claims and the pods using them
+
+![](../images/8.10.png)
+
+Unlike statically provisioned persistent volumes, the sequence of events when using dynamic provisioning begins with the creation of the PersistentVolumeClaim object. As soon as one such object appears, Kubernetes instructs the dynamic provisioner configured in the storage class referenced in this claim to provision a volume for it. The provisioner creates both the underlying storage, typically through the cloud provider’s API, and the PersistentVolume object that references the underlying volume.
+
+The underlying volume is typically provisioned asynchronously. When the process completes, the status of the PersistentVolume object changes to Available; at this point, the volume is bound to the claim.
+
+Users can then deploy pods that refer to the claim to gain access to the underlying storage volume. When the volume is no longer needed, the user deletes the claim. This typically triggers the deletion of both the PersistentVolume object and the underlying storage volume.
+
+This entire process is repeated for each new claim that the user creates. A new PersistentVolume object is created for each claim, which means that the cluster can never run out of them. Obviously, the datacentre itself can run out of available disk space, but at least there is no need for the administrator to keep recycling old PersistentVolume objects.
