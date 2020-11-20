@@ -6,7 +6,7 @@ A hostPath volume points to a specific file or directory in the filesystem of th
 
 Figure 7.10 A hostPath volume mounts a file or directory from the worker node’s filesystem into the container.
 
-![](../images/7.10.png)
+![](../images/7.10.jpg)
 
 A hostPath volume is not a good place to store the data of a database. Because the contents of the volume are stored on the filesystem of a specific node, the database pod will not be able to see the data if it gets rescheduled to another node.
 
@@ -60,8 +60,9 @@ In the previous example, you only specified the path for the hostPath volume, bu
 
 The following table explains the supported hostPath types:
 
-| Type | Description |
-| <empty> | Kubernetes performs no checks before it mounts the volume. |
+| Type | Description | 
+| --- | --- |
+| < empty > | Kubernetes performs no checks before it mounts the volume. |
 | Directory | Kubernetes checks if a directory exists at the specified path. You use this type if you want to mount a pre-existing directory into the pod and want to prevent the pod from running if the directory doesn’t exist. |
 | DirectoryOrCreate | Same as Directory, but if nothing exists at the specified path, an empty directory is created. |
 | File | The specified path must be a file. |

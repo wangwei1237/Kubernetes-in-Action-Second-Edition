@@ -13,14 +13,14 @@ DEFINITION
 
 Figure 7.1 Mounting a filesystem into the file tree
 
-![](../images/7.1.png)
+![](../images/7.1.jpg)
 
 ## Understanding how volumes fit into pods
 Like containers, volumes aren’t top-level resources like pods or nodes, but are a component within the pod and thus share its lifecycle. As the following figure shows, a volume is defined at the pod level and then mounted at the desired location in the container.
 
 Figure 7.2 Volumes are defined at the pod level and mounted in the pod’s containers
 
-![](../images/7.2.png)
+![](../images/7.2.jpg)
 
 The lifecycle of a volume is tied to the lifecycle of the entire pod and is independent of the lifecycle of the container in which it is mounted. Due to this fact, volumes are also used to persist data across container restarts.
 
@@ -35,7 +35,7 @@ If, on the other hand, the application writes data to a volume mounted inside th
 
 Figure 7.3 Volumes ensure that part of the container’s filesystem is persisted across restarts
 
-![](../images/7.3.png)
+![](../images/7.3.jpg)
 
 It is up to the author of the application to determine which files must be retained on restart. Normally you want to preserve data representing the application’s state, but you may not want to preserve files that contain the application’s locally cached data, as this prevents the container from starting fresh when it’s restarted. Starting fresh every time may allow the application to heal itself when corruption of the local cache causes it to crash. Just restarting the container and using the same corrupted files could result in an endless crash loop.
 
@@ -50,7 +50,7 @@ A pod can have multiple volumes and each container can mount zero or more of the
 
 Figure 7.4 A pod can contain multiple volumes and a container can mount multiple volumes
 
-![](../images/7.4.png)
+![](../images/7.4.jpg)
 
 The reason why you might want to mount multiple volumes in one container is that these volumes may serve different purposes and can be of different types with different performance characteristics.
 
@@ -65,7 +65,7 @@ become a complete system that provides a valuable service and is more than the s
 
 Figure 7.5 A volume can be mounted into more than one container
 
-![](../images/7.5.png)
+![](../images/7.5.jpg)
 
 The same volume can be mounted at different places in each container, depending on the needs of the container itself. If the content agent writes content to /var/data, it makes sense to mount the volume there. Since the web server expects the content to be in /var/html, the container running it has the volume mounted at this location.
 
@@ -80,7 +80,7 @@ As the following figure shows, a pod volume can map to persistent storage outsid
 
 Figure 7.6 Pod volumes can also map to storage volumes that persist across pod restarts
 
-![](../images/7.6.png)
+![](../images/7.6.jpg)
 
 If the pod is deleted and a new pod is created to replace it, the same network-attached storage volume can be attached to the new pod instance so that it can access the data stored there by the previous instance.
 
@@ -89,7 +89,7 @@ Depending on the technology that provides the external storage volume, the same 
 
 Figure 7.7 Using volumes to share data between pods
 
-![](../images/7.7.png)
+![](../images/7.7.jpg)
 
 In the simplest case, the persistent storage volume could be a simple local directory on the worker node’s filesystem, and the three pods have volumes that map to that directory. If all three pods are running on the same node, they can share files through this directory.
 

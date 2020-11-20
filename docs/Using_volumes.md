@@ -95,6 +95,7 @@ In general, each volume definition must include a name and a type, which is indi
 For example, the emptyDir volume type supports two fields for configuring the volume. They are explained in the following table.
 
 | Field | Description |
+| --- | --- | 
 | medium | The type of storage medium to use for the directory. If left empty, the default medium of the host node is used (the directory is created on one of the node’s disks). The only other supported option is Memory, which causes the volume to use tmpfs, a virtual memory filesystem where the files are kept in memory instead of on the hard disk. |
 | sizeLimit | The total amount of local storage required for the directory, whether on disk or in memory. For example, to set the maximum size to ten mebibytes, you set this field to 10Mi. |
 
@@ -252,16 +253,11 @@ mountPath: /path/in/container
 As you can see in the listing, the absolute minimum is to specify the name of the volume and the path where it should be mounted. But other configuration options for mounting volumes exist. The full list of volume mount options is shown in the following table.
 
 | Field | Description |
+| --- | --- |
 | name | The name of the volume to mount. This must match one of the volumes defined in the pod. |
 | mountPath | The path within the container at which to mount the volume. |
 | readOnly | Whether to mount the volume as read-only. Defaults to false. |
-| mountPropagation | Specifies what should happen if additional filesystem volumes are mounted inside the volume. \n
-
-Defaults to None, which means that the container won’t receive any mounts that are mounted by the host, and the host won’t receive any mounts that are mounted by the container. \n
-
-HostToContainer means that the container will receive all mounts that are mounted into this volume by the host, but not the other way around. \n
-
-Bidirectional means that the container will receive mounts added by the host, and the host will receive mounts added by the container. |
+| mountPropagation | Specifies what should happen if additional filesystem volumes are mounted inside the volume. <br /> <br /> Defaults to None, which means that the container won’t receive any mounts that are mounted by the host, and the host won’t receive any mounts that are mounted by the container. <br /> <br /> HostToContainer means that the container will receive all mounts that are mounted into this volume by the host, but not the other way around. <br /> <br /> Bidirectional means that the container will receive mounts added by the host, and the host will receive mounts added by the container. |
 | subPath | Defaults to “” which means that the entire volume is mounted into the container. When set to a non-empty string, only the specified subPath within the volume is mounted into the container. |
 | subPathExpr | Just like subPath but can have environment variable references using the syntax $(ENV_VAR_NAME). Only environment variables that are explicitly defined in the container definition are applicable. Implicit variables such as HOSTNAME will not be resolved. You’ll learn how to specify environment variables in chapter 9. |
 

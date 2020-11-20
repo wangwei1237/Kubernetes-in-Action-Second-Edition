@@ -73,7 +73,7 @@ The pod is visualized in the following figure. It consists of a single container
 
 Figure 7.8 A GCE Persistent Disk used as a pod Volume and mounted into one of its containers
 
-![](7.8.png)
+![](7.8.jpg)
 
 ### Writing to the volume
 After you create the pod, run the MongoDB client inside the container and add some data to the database. To do this, run the client as shown in the following listing.
@@ -234,7 +234,7 @@ As the following figure shows, a network volume is mounted by the host node, and
 
 Figure 7.9 Network volumes are mounted by the host node and then exposed in pods
 
-![](../images/7.9.png)
+![](../images/7.9.jpg)
 
 For most storage technologies available in the cloud, the only way to use the same network volume on multiple nodes simultaneously is to mount them in read-only mode. For example, pods scheduled to different nodes can use the same GCE Persistent Disk if it is mounted in read-only mode, as shown in the next listing:
 
