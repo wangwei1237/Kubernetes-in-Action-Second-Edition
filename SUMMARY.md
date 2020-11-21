@@ -18,12 +18,10 @@
     * [2.4 Summary](Summary_2.md)
 * [3 DEPLOYING YOUR FIRST APPLICATION](docs/Deploying_your_first_application.md)
     * [3.1 Deploying a Kubernetes cluster](docs/Deploying_a_Kubernetes_cluster.md)
-    * [3.1.1 Using the built-in Kubernetes cluster in Docker Desktop](docs/Using_the_built-in_Kubernetes_cluster_in_Docker_Desktop.md)
-    * [3.1.2   Running a local cluster using Minikube](docs/Running_a_local_cluster_using_Minikube.md)
-    * [3.1.3 Running a local cluster using kind (Kubernetes in Docker)](docs/Running_a_local_cluster_using_kind.md)
-    * [3.1.4 Creating a managed cluster with Google Kubernetes Engine](docs/Creating_a_managed_cluster_with_Google_Kubernetes_Engine.md)
-    * [3.1.5 Creating a cluster using Amazon Elastic Kubernetes Service](docs/Creating_a_cluster_using_Amazon_Elastic_Kubernetes_Service.md)
-    * [3.1.6 Deploying a multi-node cluster from scratch](docs/Deploying_a_multi-node_cluster_from_scratch.md)
+    * [3.2 Interacting with Kubernetes](docs/Interacting_with_Kubernetes.md)
+    * [3.3  Running your first application on Kubernetes](docs/Running_your_first_application_on_Kubernetes.md)
+    * [3.4 Summary](docs/Summary_3.md)
+    
     
 ### Part 2: Learning the Ropes: Kubernetes API Objects
 * [4. Introducing the Kubernetes API Objects](docs/Introducing_the_Kubernetes_API_Objects.md)
