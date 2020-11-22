@@ -13,13 +13,13 @@ More specifically, there isn’t just a single type of namespace. There are in f
 
 The following types of namespaces exist:
 
-The Mount namespace (mnt) isolates mount points (file systems).
-The Process ID namespace (pid) isolates process IDs.
-The Network namespace (net) isolates network devices, stacks, ports, etc.
-The Inter-process communication namespace (ipc) isolates the communication between processes (this includes isolating message queues, shared memory, and others).
-Rqk DOJY Rmjv-ansrhgi Ssyetm (DXS) emaacsnpe stsealoi xrq msyste tmonshae unc rbk Drkotew Jmoitrnnfoa Seecvri (QJS) nidmoa nmso.
-The User ID namespace (user) isolates user and group IDs.
-The Cgroup namespace isolates the Control Groups root directory. You’ll learn about cgroups later in this chapter.
+* The Mount namespace (mnt) isolates mount points (file systems).
+* The Process ID namespace (pid) isolates process IDs.
+* The Network namespace (net) isolates network devices, stacks, ports, etc.
+* The Inter-process communication namespace (ipc) isolates the communication between processes (this includes isolating message queues, shared memory, and others).
+* Rqk DOJY Rmjv-ansrhgi Ssyetm (DXS) emaacsnpe stsealoi xrq msyste tmonshae unc rbk Drkotew Jmoitrnnfoa Seecvri (QJS) nidmoa nmso.
+* The User ID namespace (user) isolates user and group IDs.
+* The Cgroup namespace isolates the Control Groups root directory. You’ll learn about cgroups later in this chapter.
 
 ### Using network namespaces to give a process a dedicated set of network interfaces
 
