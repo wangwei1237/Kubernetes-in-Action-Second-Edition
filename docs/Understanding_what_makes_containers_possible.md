@@ -131,8 +131,11 @@ It contains the app.js file and other system directories that are part of the no
 
 To leave the container, leave the shell by running the exit command or pressing Control-D and you’ll be returned to your host computer (similar to logging out from an ssh session).
 
-* TIP 
-* Entering a running container like this is useful when debugging an app running in a container. When something breaks, the first thing you’ll want to investigate is the actual state of the system your application sees.
+{% hint style='info' %}
+TIP
+
+  Entering a running container like this is useful when debugging an app running in a container. When something breaks, the first thing you’ll want to investigate is the actual state of the system your application sees.
+{% endhint %}
 
 ### 2.3.3 Limiting a process’ resource usage with Linux Control Groups
 
