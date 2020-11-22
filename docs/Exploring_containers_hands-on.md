@@ -37,6 +37,9 @@ In your case, the app was just a single executable file, but it could have been 
 ### Understanding what happens when you run a container
 
 Figure 2.10 shows exactly what happened when you executed the docker run command.
+
+![](../images/2.10.png)
+
 The docker CLI tool sent an instruction to run the container to the Docker daemon, which checked whether the busybox image was already present in its local image cache. It wasn’t, so it pulled it from the Docker Hub registry.
 
 After downloading the image to your computer, the Docker daemon created a container from that image and executed the echo command in it. The command printed the text to the standard output, the process then terminated and the container stopped.
@@ -175,6 +178,8 @@ kubia        latest   b0ecc49d7a1d       1 minute ago        908 MB
 
 Figure 2.11 shows what happens during the build process. You tell Docker to build an image called kubia based on the contents of the current directory. Docker reads the Dockerfile in the directory and builds the image based on the directives in the file.
 
+![](../images/2.11.png)
+
 The build itself isn’t performed by the docker CLI tool. Instead, the contents of the entire directory are uploaded to the Docker daemon and the image is built by it. You’ve already learned that the CLI tool and the daemon aren’t necessarily on the same computer. If you’re using Docker on a non-Linux system such as macOS or Windows, the client is in your host OS, but the daemon runs inside a Linux VM. But it could also run on a remote computer.
 
 * TIP 
@@ -232,6 +237,8 @@ $ docker run --name kubia-container -p 1234:8080 -d kubia
 This tells Docker to run a new container called kubia-container from the kubia image. The container is detached from the console (-d flag) and runs in the background. Port 1234 on the host computer is mapped to port 8080 in the container (specified by the -p 1234:8080 option), so you can access the app at http://localhost:1234.
 
 The following figure should help you visualize how everything fits together. Note that the Linux VM exists only if you use macOS or Windows. If you use Linux directly, there is no VM and the box depicting port 1234 is at the edge of the local computer.
+
+![](../images/2.12.png)
 
 ### Accessing your app
 

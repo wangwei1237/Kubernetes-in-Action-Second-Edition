@@ -27,6 +27,8 @@ The network namespace in which a process runs determines what network interfaces
 
 Examine figure 2.13 for a better overview of how network namespaces are used to create a container. Imagine you want to run a containerized process and provide it with a dedicated set of network interfaces that only that process can use.
 
+![](../images/2.13.png)
+
 Initially, only the default network namespace exists. You then create two new network interfaces for the container and a new network namespace. The interfaces can then be moved from the default namespace to the new namespace. Once there, they can be renamed, because names must only be unique in each namespace. Finally, the process can be started in this network namespace, which allows it to only see the two interfaces that were created for it.
 
 By looking solely at the available network interfaces, the process can’t tell whether it’s in a container or a VM or an OS running directly on a bare-metal machine.
@@ -42,6 +44,8 @@ By creating a dedicated namespace instance for all available namespace types and
 ### Sharing namespaces between multiple processes
 
 In the next chapter you’ll learn that you don’t always want to isolate the containers completely from each other. Related containers may want to share certain resources. The following figure shows an example of two processes that share the same network interfaces and the host and domain name of the system, but not the file system.
+
+![](../images/2.14.png)
 
 Concentrate on the shared network devices first. The two processes see and use the same two devices (eth0 and lo) because they use the same network namespace. This allows them to bind to the same IP address and communicate through the loopback device, just as they could if they were running on a machine that doesn’t use containers. The two processes also use the same UTS namespace and therefore see the same system host name. In contrast, they each use their own mount namespace, which means they have separate file systems.
 
@@ -104,6 +108,8 @@ root  382  0.0  0.1 676380 16504 ?   Sl   12:31 0:00 node app.js
 * If you use macOS or Windows, you must list the processes in the VM that hosts the Docker daemon, as that’s where your containers run. In Docker Desktop, you can enter the VM using the following command: docker run --net=host --ipc=host --uts=host --pid=host -it --security-opt=seccomp=unconfined --privileged --rm -v /:/host alpine chroot /host
 
 If you have a sharp eye, you may notice that the process IDs in the container are different from those on the host. Because the container uses its own Process ID namespace it has its own process tree with its own ID number sequence. As the next figure shows, the tree is a subtree of the host’s full process tree. Each process thus has two IDs.
+
+![](../images/2.15.png)
 
 ### the container’s filesystem is isolated from the host and other containers
 
