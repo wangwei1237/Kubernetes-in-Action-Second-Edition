@@ -9,7 +9,7 @@ The Docker Platform consists of many components, but you only need to install Do
 {% hint style='info' %}
 NOTE
 
-Ukreco Uktsoep tkl Moniwsd nsc ytn eierht Mdwnios vt Pjenp ntaiocsenr. Wzvv cbkt qrrz geu ocrenuifg jr xr ayo Zjnvg carntneois.
+  Docker Desktop for Windows can run either Windows or Linux containers. Make sure that you configure it to use Linux containers.
 {% endhint %}
 
 ### Running a Hello World container
