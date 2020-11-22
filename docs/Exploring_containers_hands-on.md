@@ -196,7 +196,7 @@ The build itself isn’t performed by the docker CLI tool. Instead, the contents
 
 {% hint style='info' %}
 TIP
- 
+
   Don’t add unnecessary files to the build directory, as they will slow down the build process—especially if the Docker daemon is located on a remote system.
 {% endhint %}
 
