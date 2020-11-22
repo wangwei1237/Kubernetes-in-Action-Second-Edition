@@ -1,4 +1,4 @@
-# Introducing Kubernetes
+# 1. Introducing Kubernetes
 
 This chapter covers
 * Introductory information about Kubernetes and its origins

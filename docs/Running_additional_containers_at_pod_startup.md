@@ -1,4 +1,4 @@
-# Running additional containers at pod startup
+# 5.5 Running additional containers at pod startup
 When a pod contains more than one container, all the containers are started in parallel. Kubernetes doesn’t yet provide a mechanism to specify whether a container depends on another container, which would allow you to ensure that one is started before the other. However, Kubernetes allows you to run a sequence of containers to initialize the pod before its main containers start. This special type of container is explained in this section.
 
 ## Introducing init containers

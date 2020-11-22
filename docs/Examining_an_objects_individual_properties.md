@@ -1,4 +1,4 @@
-# Examining an object’s individual properties
+# 4.2 Examining an object’s individual properties
 To examine Kubernetes API objects up close, we’ll need a concrete example. Let’s take the Node object, which should be easy to understand because it represents something you might be relatively familiar with - a computer in the cluster.
 
 My Kubernetes cluster provisioned by the kind tool has three nodes - one master and two workers. They are represented by three Node objects in the API. I can query the API and list these objects using `kubectl get nodes`, as shown in the next listing.

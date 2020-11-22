@@ -22,7 +22,6 @@
     * [3.3  Running your first application on Kubernetes](docs/Running_your_first_application_on_Kubernetes.md)
     * [3.4 Summary](docs/Summary_3.md)
     
-    
 ### Part 2: Learning the Ropes: Kubernetes API Objects
 * [4. Introducing the Kubernetes API Objects](docs/Introducing_the_Kubernetes_API_Objects.md)
     * [4.1 Getting familiar with the Kubernetes API](docs/Getting_familiar_with_the_Kubernetes_API.md)

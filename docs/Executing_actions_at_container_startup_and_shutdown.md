@@ -1,4 +1,4 @@
-# Executing actions at container start-up and shutdown
+# 6.3 Executing actions at container start-up and shutdown
 In the previous chapter you learned that you can use init containers to run containers at the start of the pod lifecycle. You may also want to run additional processes every time a container starts and just before it stops. You can do this by adding lifecycle hooks to the container. Two types of hooks are currently supported:
 
 * *Post-start* hooks, which are executed when the container is started, and

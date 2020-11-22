@@ -1,4 +1,4 @@
-# Persisting application data with PersistentVolumes
+# 8. Persisting application data with PersistentVolumes
 This chapter covers
 
 * Using PersistentVolume objects to represent persistent storage

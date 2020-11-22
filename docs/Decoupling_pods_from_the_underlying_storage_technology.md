@@ -1,4 +1,4 @@
-# Decoupling pods from the underlying storage technology
+# 8.1 Decoupling pods from the underlying storage technology
 Ideally, a developer who deploys their applications on Kubernetes shouldn’t need to know what storage technology the cluster provides, just as they don’t need to know the characteristics of the physical servers used to run the pods. Details of the infrastructure should be handled by the people who run the cluster.
 
 For this reason, when you deploy an application to Kubernetes, you typically don’t refer directly to the external storage in the pod manifest, but use an indirect approach where the storage is configured in a `PersistentVolume` object, as shown in the following figure. This allows the pod manifest to remain free of infrastructure-specific information.

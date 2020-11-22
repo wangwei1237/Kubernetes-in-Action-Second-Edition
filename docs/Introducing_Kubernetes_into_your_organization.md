@@ -1,4 +1,4 @@
-# Introducing Kubernetes into your organization
+# 1.3 Introducing Kubernetes into your organization
 To close this chapter, let’s see what options are available to you if you decide to introduce Kubernetes in your own IT environment.
 
 ## Running Kubernetes on-premises and in the cloud

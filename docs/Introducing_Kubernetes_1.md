@@ -1,4 +1,4 @@
-# Introducing Kubernetes
+# 1.1 Introducing Kubernetes
 The word Kubernetes is Greek for pilot or helmsman, the person who steers the ship - the person standing at the helm (the ship’s wheel). A helmsman is not necessarily the same as a captain. A captain is responsible for the ship, while the helmsman is the one who steers it.
 
 After learning more about what Kubernetes does, you’ll find that the name hits the spot perfectly. A helmsman maintains the course of the ship, carries out the orders given by the captain and reports back the ship's heading. Kubernetes steers your applications and reports on their status while you - the captain - decide where you want the system to go.

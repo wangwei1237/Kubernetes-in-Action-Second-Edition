@@ -1,4 +1,4 @@
-# Understanding the pod lifecycle
+# 6.4 Understanding the pod lifecycle
 So far in this chapter you’ve learned a lot about how the containers in a pod run. Now let’s take a closer look at the entire lifecycle of a pod and its containers.
 
 When you create a pod object, Kubernetes schedules it to a worker node that then runs its containers. The pod’s lifecycle is divided into the three stages shown in the next figure:

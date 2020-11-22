@@ -1,4 +1,4 @@
-# Mounting storage volumes into the Pod’s containers
+# 7. Mounting storage volumes into the Pod’s containers
 This chapter covers
 
 * Persisting files across container restarts

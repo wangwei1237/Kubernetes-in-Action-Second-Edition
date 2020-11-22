@@ -1,4 +1,4 @@
-# Managing the lifecycle of the Pod’s containers
+# 6. Managing the lifecycle of the Pod’s containers
 This chapter covers
 
 * Inspecting the pod’s status

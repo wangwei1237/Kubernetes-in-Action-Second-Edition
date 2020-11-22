@@ -1,4 +1,4 @@
-# Node-local persistent volumes
+# 8.4 Node-local persistent volumes
 In the previous sections of this chapter, you’ve used persistent volumes and claims to provide network-attached storage volumes to your pods, but this type of storage is too slow for some applications. To run a production-grade database, you should probably use an SSD connected directly to the node where the database is running.
 
 In the previous chapter, you learned that you can use a `hostPath` volume in a pod if you want the pod to access part of the host’s filesystem. Now you’ll learn how to do the same with persistent volumes. You might wonder why I need to teach you another way to do the same thing, but it’s really not the same.

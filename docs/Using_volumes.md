@@ -1,4 +1,4 @@
-# Using volumes
+# 7.2 Using volumes
 The simplest volume type is emptyDir. This is the volume type you normally use when you need to persist files across container restarts, as explained in section 7.1.1.
 
 ## Using an emptyDir volume to persist files across container restarts
