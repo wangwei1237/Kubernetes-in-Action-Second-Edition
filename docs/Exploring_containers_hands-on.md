@@ -8,8 +8,11 @@ Ideally, you’ll install Docker directly on a Linux computer, so you won’t ha
 
 The Docker Platform consists of many components, but you only need to install Docker Engine to run containers. If you use macOS or Windows, install Docker Desktop. For details, follow the instructions at http://docs.docker.com/install.
 
-* NOTE
-* Ukreco Uktsoep tkl Moniwsd nsc ytn eierht Mdwnios vt Pjenp ntaiocsenr. Wzvv cbkt qrrz geu ocrenuifg jr xr ayo Zjnvg carntneois.
+{% hint style='info' %}
+NOTE
+
+  Ukreco Uktsoep tkl Moniwsd nsc ytn eierht Mdwnios vt Pjenp ntaiocsenr. Wzvv cbkt qrrz geu ocrenuifg jr xr ayo Zjnvg carntneois.
+{% endhint %}
 
 ### Running a Hello World container
 
@@ -58,8 +61,11 @@ $ docker run redis:alpine
 
 To stop and exit the container, press Control-C (or Command-C on a Mac).
 
-* NOTE
-* If you want to run an image from a different registry, you must specify the registry along with the image name. For example, if you want to run an image from the Quay.io registry, which is another publicly accessible image registry, run it as follows: docker run quay.io/some/image.
+{% hint style='info' %}
+NOTE
+
+  If you want to run an image from a different registry, you must specify the registry along with the image name. For example, if you want to run an image from the Quay.io registry, which is another publicly accessible image registry, run it as follows: docker run quay.io/some/image.
+{% endhint %}
 
 ### Understanding image tags
 
@@ -67,8 +73,11 @@ If you’ve searched for the Redis image on Docker Hub, you’ve noticed that th
 
 Docker allows you to have multiple versions or variants of the same image under the same name. Each variant has a unique tag. If you refer to images without explicitly specifying the tag, Docker assumes that you’re referring to the special latest tag. When uploading a new version of an image, image authors usually tag it with both the actual version number and with latest. When you want to run the latest version of an image, use the latest tag instead of specifying the version.
 
-* NOTE
-* The docker run command only pulls the image if it hasn’t already pulled it before. Using the latest tag ensures that you get the latest version when you first run the image. The locally cached image is used from that point on.
+{% hint style='info' %}
+NOTE
+
+  The docker run command only pulls the image if it hasn’t already pulled it before. Using the latest tag ensures that you get the latest version when you first run the image. The locally cached image is used from that point on.
+{% endhint %}
 
 Even for a single version, there are usually several variants of an image. For Redis I mentioned 5.0.7-buster and 5.0.7-alpine. They both contain the same version of Redis, but differ in the base image they are built on. 5.0.7-buster is based on Debian version “Buster”, while 5.0.7-alpine is based on the Alpine Linux base image, a very stripped-down image that is only 5MB in total – it contains only a small set of the installed binaries you see in a typical Linux distribution.
 
@@ -112,8 +121,10 @@ The code in the listing should be easy to understand. It starts an HTTP server o
 
 Hey there, this is <server-hostname>. Your IP is <client-IP>.
 
-* NOTE 
-* The hostname in the response is the server’s actual hostname, not the one sent by the client in the request’s Host header. This detail will be important later.
+{% hint style='info' %}
+NOTE 
+  The hostname in the response is the server’s actual hostname, not the one sent by the client in the request’s Host header. This detail will be important later.
+{% endhint %}
 
 You could now download and install Node.js locally and test your app directly, but that’s not necessary. It’s easier to package it into a container image and run it with Docker. This enables you to run the app on any other Docker-enabled host without installing Node.js there either.
 
@@ -248,9 +259,11 @@ Now access the application at http://localhost:1234 using curl or your internet 
 $ curl localhost:1234
 Hey there, this is 44d76963e8e1. Your IP is ::ffff:172.17.0.1.
 ```
+{% hint style='info' %}
+NOTE
 
-* NOTE
-* If the Docker Daemon runs on a different machine, you must replace localhost with the IP of that machine. You can look it up in the DOCKER_HOST environment variable.
+  If the Docker Daemon runs on a different machine, you must replace localhost with the IP of that machine. You can look it up in the DOCKER_HOST environment variable.
+{% endhint %}
 
 If all went well, you should see the response sent by the application. In my case, it returns 44d76963e8e1 as its hostname. In your case, you’ll see a different hexadecimal number. This is the ID of the container that is displayed when you list them.
 
