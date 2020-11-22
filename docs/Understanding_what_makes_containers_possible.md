@@ -64,7 +64,7 @@ To explore these features in the case of a VM, you typically connect to it remot
 {% hint style='info' %}
 NOTE
 
-    The shell’s executable file must be available in the container’s file system. This isn’t always the case with containers running in production.
+  The shell’s executable file must be available in the container’s file system. This isn’t always the case with containers running in production.
 {% endhint %}
 
 ### Running a shell inside an existing container
@@ -108,8 +108,8 @@ root  382  0.0  0.1 676380 16504 ?   Sl   12:31 0:00 node app.js
 ```
 {% hint style='info' %}
 NOTE
- 
-    If you use macOS or Windows, you must list the processes in the VM that hosts the Docker daemon, as that’s where your containers run. In Docker Desktop, you can enter the VM using the following command: docker run --net=host --ipc=host --uts=host --pid=host -it --security-opt=seccomp=unconfined --privileged --rm -v /:/host alpine chroot /host
+
+  If you use macOS or Windows, you must list the processes in the VM that hosts the Docker daemon, as that’s where your containers run. In Docker Desktop, you can enter the VM using the following command: docker run --net=host --ipc=host --uts=host --pid=host -it --security-opt=seccomp=unconfined --privileged --rm -v /:/host alpine chroot /host
 {% endhint %}
 
 If you have a sharp eye, you may notice that the process IDs in the container are different from those on the host. Because the container uses its own Process ID namespace it has its own process tree with its own ID number sequence. As the next figure shows, the tree is a subtree of the host’s full process tree. Each process thus has two IDs.
@@ -191,7 +191,7 @@ Most containers should run without elevated privileges. Only those programs that
 {% hint style='info' %}
 NOTE
 
-    With Docker you create a privileged container by using the --privileged flag.
+  With Docker you create a privileged container by using the --privileged flag.
 {% endhint %}
 
 ### Using Capabilities to give containers a subset of all privileges
@@ -206,7 +206,7 @@ Capabilities can be added or removed (dropped) from a container when you create 
 {% hint style='info' %}
 NOTE
 
-    Always follow the principle of least privilege when running containers. Don’t give them any capabilities that they don’t need. This prevents attackers from using them to gain access to your operating system.
+  Always follow the principle of least privilege when running containers. Don’t give them any capabilities that they don’t need. This prevents attackers from using them to gain access to your operating system.
 {% endhint %}
 
 ### Using seccomp profiles to filter individual sys-calls

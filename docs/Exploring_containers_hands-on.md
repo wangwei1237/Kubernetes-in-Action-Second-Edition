@@ -123,6 +123,7 @@ Hey there, this is <server-hostname>. Your IP is <client-IP>.
 
 {% hint style='info' %}
 NOTE 
+
   The hostname in the response is the server’s actual hostname, not the one sent by the client in the request’s Host header. This detail will be important later.
 {% endhint %}
 
