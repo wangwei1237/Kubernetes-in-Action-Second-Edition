@@ -1,4 +1,4 @@
-### Summary
+# 2.4 Summary
 
 If you were new to containers before reading this chapter, you should now understand what they are, why we use them, and what features of the Linux kernel make them possible. If you have previously used containers, I hope this chapter has helped to clarify your uncertainties about how containers work, and you now understand that they’re nothing more than regular OS processes that the Linux kernel isolates from other processes.
 

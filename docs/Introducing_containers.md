@@ -1,4 +1,4 @@
-# Introducing containers
+# 2.1 Introducing containers
 In Chapter 1 you learned how different microservices running in the same operating system may require different, potentially conflicting versions of dynamically linked libraries or have different environment requirements.
 
 When a system consists of a small number of applications, it’s okay to assign a dedicated virtual machine to each application and run each in its own operating system. But as the microservices become smaller and their numbers start to grow, you may not be able to afford to give each one its own VM if you want to keep your hardware costs low and not waste resources.
@@ -88,7 +88,6 @@ As the next figure shows, another person can now pull the image to any other com
 Running the application on any computer is made possible by the fact that the environment of the application is decoupled from the environment of the host.
 
 ### Understanding the environment that the application sees
-
 When you run an application in a container, it sees exactly the file system content you bundled into the container image, as well as any additional file systems you mount into the container. The application sees the same files whether it’s running on your laptop or a full-fledged production server, even if the production server uses a completely different Linux distribution. The application typically has no access to the files in the host’s operating system, so it doesn’t matter if the server has a completely different set of installed libraries than your development computer.
 
 For example, if you package your application with the files of the entire Red Hat Enterprise Linux (RHEL) operating system and then run it, the application will think it’s running inside RHEL, whether you run it on your Fedora-based or a Debian-based computer. The Linux distribution installed on the host is irrelevant. The only thing that might be important is the kernel version and the kernel modules it loads. Later, I’ll explain why.
@@ -96,7 +95,6 @@ For example, if you package your application with the files of the entire Red Ha
 This is similar to creating a VM image by creating a new VM, installing an operating system and your app in it, and then distributing the whole VM image so that other people can run it on different hosts. Docker achieves the same effect, but instead of using VMs for app isolation, it uses Linux container technologies to achieve (almost) the same level of isolation.
 
 ### Understanding image layers
-
 Unlike virtual machine images, which are big blobs of the entire filesystem required by the operating system installed in the VM, container images consist of layers that are usually much smaller. These layers can be shared and reused across multiple images. This means that only certain layers of an image need to be downloaded if the rest were already downloaded to the host as part of another image containing the same layers.
 
 Layers make image distribution very efficient but also help to reduce the storage footprint of images. Docker stores each layer only once. As you can see in figure 2.8, two containers created from two images that contain the same layers use the same files.
@@ -112,29 +110,21 @@ Fonk emsynegil erlmsahs spnrieoato azdq cz gnanhcgi iissnepmors tk wsenoriph vl 
 
 
 ### Understanding the portability limitations of container images
-
 In theory, a Docker-based container image can be run on any Linux computer running Docker, but one small caveat exists, because containers don’t have their own kernel. If a containerized application requires a particular kernel version, it may not work on every computer. If a computer is running a different version of the Linux kernel or doesn’t load the required kernel modules, the app can’t run on it. This scenario is illustrated in the following figure.
 
 Container B requires a specific kernel module to run properly. This module is loaded in the kernel in the first computer, but not in the second. You can run the container image on the second computer, but it will break when it tries to use the missing module.
 
 And it’s not just about the kernel and its modules. It should also be clear that a containerized app built for a specific hardware architecture can only run on computers with the same architecture. You can’t put an application compiled for the x86 CPU architecture into a container and expect to run it on an ARM-based computer just because Docker is available there. For this you would need a VM to emulate the x86 architecture.
 
-### 2.1.3 Introducing Docker alternatives and the Open Container Initiative
-
+## Introducing Docker alternatives and the Open Container Initiative
 Docker was the first container platform to make containers mainstream. I hope I’ve made it clear that Docker itself doesn’t provide process isolation. The actual isolation of containers takes place at the Linux kernel level using the mechanisms it provides. Docker just makes it easy to use these mechanisms and allows you to distribute container images to different hosts.
 
 ### Introducing the Open Container Initiative (OCI)
-
 After the success of Docker, the Open Container Initiative (OCI) was born to create open industry standards around container formats and runtime. Docker is part of this initiative, as are other container runtimes and a number of organizations with interest in container technologies.
 
 OCI members created the OCI Image Format Specification, which prescribes a standard format for container images, and the OCI Runtime Specification, which defines a standard interface for container runtimes with the aim of standardizing the creation, configuration and execution of containers.
 
 ### Introducing the Container Runtime Interface (CRI) and its implementation (CRI-O)
-
 This book focuses on using Docker as the container runtime for Kubernetes, as it was initially the only one supported by Kubernetes and is still the most widely used. But Kubernetes now supports many other container runtimes through the Container Runtime Interface (CRI).
 
 One implementation of CRI is CRI-O, a lightweight alternative to Docker that allows you to leverage any OCI-compliant container runtime with Kubernetes. Examples of OCI-compliant runtimes include rkt (pronounced Rocket), runC, and Kata Containers.
-
-
-
-
