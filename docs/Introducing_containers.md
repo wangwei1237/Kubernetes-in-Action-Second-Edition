@@ -34,7 +34,7 @@ Figure 2.2 How apps use the hardware when running in a VM vs. in a container
 {% hint style='info' %}
 NOTE 
 
-Two types of hypervisors exist. Type 1 hypervisors don’t require running a host OS, while type 2 hypervisors do.
+  Two types of hypervisors exist. Type 1 hypervisors don’t require running a host OS, while type 2 hypervisors do.
 {% endhint %}
 
 Containers, on the other hand, all make system calls on the single kernel running in the host OS. This single kernel is the only one that executes instructions on the host’s CPU. The CPU doesn’t need to handle any kind of virtualization the way it does with VMs.
@@ -73,17 +73,24 @@ Figure 2.4 The three main Docker concepts are images, registries and containers
 
 ![](../images/2.4.png)
 
-Images—A container image is something you package your application and its environment into. Like a zip file or a tarball. It contains the whole filesystem that the application will use and additional metadata, such as the path to the executable file to run when the image is executed, the ports the application listens on, and other information about the image.
+* Images—A container image is something you package your application and its environment into. Like a zip file or a tarball. It contains the whole filesystem that the application will use and additional metadata, such as the path to the executable file to run when the image is executed, the ports the application listens on, and other information about the image.
 
-Registries—A registry is a repository of container images that enables the exchange of images between different people and computers. After you build your image, you can either run it on the same computer, or push (upload) the image to a registry and then pull (download) it to another computer. Certain registries are public, allowing anyone to pull images from it, while others are private and only accessible to individuals, organizations or computers that have the required authentication credentials.
-Containers—A container is instantiated from a container image. A running container is a normal process running in the host operating system, but its environment is isolated from that of the host and the environments of other processes. The file system of the container originates from the container image, but additional file systems can also be mounted into the container. A container is usually resource-restricted, meaning it can only access and use the amount of resources such as CPU and memory that have been allocated to it.
+* Registries—A registry is a repository of container images that enables the exchange of images between different people and computers. After you build your image, you can either run it on the same computer, or push (upload) the image to a registry and then pull (download) it to another computer. Certain registries are public, allowing anyone to pull images from it, while others are private and only accessible to individuals, organizations or computers that have the required authentication credentials.
+
+* Containers—A container is instantiated from a container image. A running container is a normal process running in the host operating system, but its environment is isolated from that of the host and the environments of other processes. The file system of the container originates from the container image, but additional file systems can also be mounted into the container. A container is usually resource-restricted, meaning it can only access and use the amount of resources such as CPU and memory that have been allocated to it.
 
 ### Building, distributing, and running a container image
 To understand how containers, images and registries relate to each other, let’s look at how to build a container image, distribute it through a registry and create a running container from the image. These three processes are shown in figures 2.5 to 2.7.
 
+![](../images/2.5.png)
+
 As shown in figure 2.5, the developer first builds an image, and then pushes it to a registry, as shown in figure 2.6. The image is now available to anyone who can access the registry.
 
+![](../images/2.6.png)
+
 As the next figure shows, another person can now pull the image to any other computer running Docker and run it. Docker creates an isolated container based on the image and invokes the executable file specified in the image.
+
+![](../images/2.7.png)
 
 Running the application on any computer is made possible by the fact that the environment of the application is decoupled from the environment of the host.
 
@@ -99,18 +106,25 @@ Unlike virtual machine images, which are big blobs of the entire filesystem requ
 
 Layers make image distribution very efficient but also help to reduce the storage footprint of images. Docker stores each layer only once. As you can see in figure 2.8, two containers created from two images that contain the same layers use the same files.
 
+![](../images/2.8.png)
+
 The figure shows that containers A and B share an image layer, which means that applications A and B read some of the same files. In addition, they also share the underlying layer with container C. But if all three containers have access to the same files, how can they be completely isolated from each other? Are changes that application A makes to a file stored in the shared layer not visible to application B? They aren’t. Here’s why.
 
 The filesystems are isolated by the Copy-on-Write (CoW) mechanism. The filesystem of a container consists of read-only layers from the container image and an additional read/write layer stacked on top. When an application running in container A changes a file in one of the read-only layers, the entire file is copied into the container’s read/write layer and the file contents are changed there. Since each container has its own writable layer, changes to shared files are not visible in any other container.
 
 When you delete a file, it is only marked as deleted in the read/write layer, but it’s still present in one or more of the layers below. What follows is that deleting files never reduces the size of the image.
 
+{% hint style='info' %}
 WARNING
-Fonk emsynegil erlmsahs spnrieoato azdq cz gnanhcgi iissnepmors tk wsenoriph vl z fxlj ertlus jn z wnk eabh el uor eentir ojlf niebg aeetdrc jn qor trid/eewra aeryl. Jl qkb mrfpeor crjg obrg le torainoep xn s agrel vljf tk cgnm lsefi, rpv egmia jccv gms llwes niytnafgsiicl.
+
+  Fonk emsynegil erlmsahs spnrieoato azdq cz gnanhcgi iissnepmors tk wsenoriph vl z fxlj ertlus jn z wnk eabh el uor eentir ojlf niebg aeetdrc jn qor trid/eewra aeryl. Jl qkb mrfpeor crjg obrg le torainoep xn s agrel vljf tk cgnm lsefi, rpv egmia jccv gms llwes niytnafgsiicl.
+{% endhint %}
 
 
 ### Understanding the portability limitations of container images
 In theory, a Docker-based container image can be run on any Linux computer running Docker, but one small caveat exists, because containers don’t have their own kernel. If a containerized application requires a particular kernel version, it may not work on every computer. If a computer is running a different version of the Linux kernel or doesn’t load the required kernel modules, the app can’t run on it. This scenario is illustrated in the following figure.
+
+![](../images/2.9.png)
 
 Container B requires a specific kernel module to run properly. This module is loaded in the kernel in the first computer, but not in the second. You can run the container image on the second computer, but it will break when it tries to use the missing module.
 

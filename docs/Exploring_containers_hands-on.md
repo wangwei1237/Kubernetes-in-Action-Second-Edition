@@ -13,11 +13,11 @@ NOTE
 {% endhint %}
 
 ### Running a Hello World container
-After the installation is complete, you use the docker CLI tool to run Docker commands. First, let’s try pulling and running an existing image from Docker Hub, the public image registry that contains ready-to-use container images for many well-known software packages. One of them is the busybox image, which you’ll use to run a simple echo "Hello world" command in your first container.
+After the installation is complete, you use the docker CLI tool to run `docker` commands. First, let’s try pulling and running an existing image from Docker Hub, the public image registry that contains ready-to-use container images for many well-known software packages. One of them is the `busybox` image, which you’ll use to run a simple `echo "Hello world"` command in your first container.
 
-If you’re unfamiliar with busybox, it’s a single executable file that combines many of the standard UNIX command-line tools, such as echo, ls, gzip, and so on. Instead of the busybox image, you could also use any other full-fledged OS container image li
+If you’re unfamiliar with `busybox`, it’s a single executable file that combines many of the standard UNIX command-line tools, such as `echo`, `ls`, `gzip`, and so on. Instead of the busybox image, you could also use any other full-fledged OS container image like Fedora, Ubuntu, or any other image that contains the `echo` executable file.
 
-You don’t need to download or install anything to run the busybox image. You can do everything with a single docker run command, by specifying the image to download and the command to run in it. To run the simple Hello world container, execute the command shown in the following listing.
+You don’t need to download or install anything to run the `busybox` image. You can do everything with a single `docker run` command, by specifying the image to download and the command to run in it. To run the simple Hello world container, execute the command shown in the following listing.
 
 ```shell
 Listing 2.1 Running a Hello World container with Docker
@@ -39,16 +39,16 @@ Figure 2.10 shows exactly what happened when you executed the docker run command
 
 ![](../images/2.10.png)
 
-The docker CLI tool sent an instruction to run the container to the Docker daemon, which checked whether the busybox image was already present in its local image cache. It wasn’t, so it pulled it from the Docker Hub registry.
+The `docker` CLI tool sent an instruction to run the container to the Docker daemon, which checked whether the `busybox` image was already present in its local image cache. It wasn’t, so it pulled it from the Docker Hub registry.
 
-After downloading the image to your computer, the Docker daemon created a container from that image and executed the echo command in it. The command printed the text to the standard output, the process then terminated and the container stopped.
+After downloading the image to your computer, the Docker daemon created a container from that image and executed the `echo` command in it. The command printed the text to the standard output, the process then terminated and the container stopped.
 
 If your local computer runs a Linux OS, the Docker CLI tool and the daemon both run in this OS. If it runs macOS or Windows, the daemon and the containers run in the Linux VM.
 
 ### Running other images
 Running other existing container images is much the same as running the busybox image. In fact, it’s often even simpler, since you don’t normally need to specify what command to execute, as with the echo command in the previous example. The command that should be executed is usually written in the image itself, but you can override it when you run it.
 
-For example, if you want to run the Redis datastore, you can find the image name on http://hub.docker.com or another public registry. In the case of Redis, one of the images is called redis:alpine, so you’d run it like this:
+For example, if you want to run the Redis datastore, you can find the image name on http://hub.docker.com or another public registry. In the case of Redis, one of the images is called `redis:alpine`, so you’d run it like this:
 
 ```shell
 $ docker run redis:alpine
@@ -63,19 +63,19 @@ If you want to run an image from a different registry, you must specify the regi
 {% endhint %}
 
 ### Understanding image tags
-If you’ve searched for the Redis image on Docker Hub, you’ve noticed that there are many image tags you can choose from. For Redis, the tags are latest, buster, alpine, but also 5.0.7-buster, 5.0.7-alpine, and so on.
+If you’ve searched for the Redis image on Docker Hub, you’ve noticed that there are many image tags you can choose from. For Redis, the tags are latest, buster, alpine, but also `5.0.7-buster`, `5.0.7-alpine`, and so on.
 
-Docker allows you to have multiple versions or variants of the same image under the same name. Each variant has a unique tag. If you refer to images without explicitly specifying the tag, Docker assumes that you’re referring to the special latest tag. When uploading a new version of an image, image authors usually tag it with both the actual version number and with latest. When you want to run the latest version of an image, use the latest tag instead of specifying the version.
+Docker allows you to have multiple versions or variants of the same image under the same name. Each variant has a unique tag. If you refer to images without explicitly specifying the tag, Docker assumes that you’re referring to the special `latest` tag. When uploading a new version of an image, image authors usually tag it with both the actual version number and with `latest`. When you want to run the `latest` version of an image, use the latest tag instead of specifying the version.
 
 {% hint style='info' %}
 NOTE
 
-The docker run command only pulls the image if it hasn’t already pulled it before. Using the latest tag ensures that you get the latest version when you first run the image. The locally cached image is used from that point on.
+The `docker run` command only pulls the image if it hasn’t already pulled it before. Using the `latest` tag ensures that you get the latest version when you first run the image. The locally cached image is used from that point on.
 {% endhint %}
 
-Even for a single version, there are usually several variants of an image. For Redis I mentioned 5.0.7-buster and 5.0.7-alpine. They both contain the same version of Redis, but differ in the base image they are built on. 5.0.7-buster is based on Debian version “Buster”, while 5.0.7-alpine is based on the Alpine Linux base image, a very stripped-down image that is only 5MB in total – it contains only a small set of the installed binaries you see in a typical Linux distribution.
+Even for a single version, there are usually several variants of an image. For Redis I mentioned `5.0.7-buster` and `5.0.7-alpine`. They both contain the same version of Redis, but differ in the base image they are built on. `5.0.7-buster` is based on Debian version “Buster”, while `5.0.7-alpine` is based on the Alpine Linux base image, a very stripped-down image that is only 5MB in total – it contains only a small set of the installed binaries you see in a typical Linux distribution.
 
-To run a specific version and/or variant of the image, specify the tag in the image name. For example, to run the 5.0.7-alpine tag, you’d execute the following command:
+To run a specific version and/or variant of the image, specify the tag in the image name. For example, to run the `5.0.7-alpine` tag, you’d execute the following command:
 
 $ docker run redis:5.0.7-alpine
 
@@ -84,7 +84,7 @@ Now that you have a working Docker setup, you’ll create an app that you’ll u
 
 This way, you’ll see that an app running in a container sees a different hostname and not that of the host computer, even though it runs on the host like any other process. This will be useful later, when you deploy the app on Kubernetes and scale it out (scale it horizontally; that is, run multiple instances of the app). You’ll see your HTTP requests hitting different instances of the app.
 
-The app consists of a single file called app.js whose contents are shown in the next listing.
+The app consists of a single file called `app.js` whose contents are shown in the next listing.
 
 ```shell
 Listing 2.2 A simple Node.js web application: app.js
@@ -110,20 +110,20 @@ var server = http.createServer(handler);
 server.listen(listenPort);
 ```
 
-The code in the listing should be easy to understand. It starts an HTTP server on port 8080. For each request, it logs the request information to standard output and sends a response with status code 200 OK and the following text:
+The code in the listing should be easy to understand. It starts an HTTP server on port 8080. For each request, it logs the request information to standard output and sends a response with status code `200 OK` and the following text:
 
 Hey there, this is <server-hostname>. Your IP is <client-IP>.
 
 {% hint style='info' %}
 NOTE 
 
-The hostname in the response is the server’s actual hostname, not the one sent by the client in the request’s Host header. This detail will be important later.
+The hostname in the response is the server’s actual hostname, not the one sent by the client in the request’s `Host` header. This detail will be important later.
 {% endhint %}
 
 You could now download and install Node.js locally and test your app directly, but that’s not necessary. It’s easier to package it into a container image and run it with Docker. This enables you to run the app on any other Docker-enabled host without installing Node.js there either.
 
 ## Creating a Dockerfile to build the container image
-To package your app into an image, you must first create a file called Dockerfile, which contains a list of instructions that Docker should perform when building the image. Create the file in the same directory as the app.js file and make sure it contains the three directives in the following listing.
+To package your app into an image, you must first create a file called `Dockerfile`, which contains a list of instructions that Docker should perform when building the image. Create the file in the same directory as the `app.js` file and make sure it contains the three directives in the following listing.
 
 ```shell
 Listing 2.3 A minimal Dockerfile for building a container image for your app
@@ -132,14 +132,16 @@ ADD app.js /app.js
 ENTRYPOINT ["node", "app.js"]
 ```
 
-The FROM line defines the container image that you’ll use as the starting point (the base image you’re building on top of). In your case, you use the node container image, tag 12. In the second line, you add the app.js file from your local directory into the root directory of the image, under the same name (app.js). Finally, in the third line, you specify the command that Docker should run when you execute the image. In your case, the command is node app.js.
+The FROM line defines the container image that you’ll use as the starting point (the base image you’re building on top of). In your case, you use the `node` container image, tag 12. In the second line, you add the `app.js` file from your local directory into the root directory of the image, under the same name (`app.js`). Finally, in the third line, you specify the command that Docker should run when you execute the image. In your case, the command is `node app.js`.
 
-* Choosing a base image
+{% hint style='info' %}
+  Choosing a base image
+{% endhint %}
 
-You may wonder why use this specific image as your base. Because your app is a Node.js app, you need your image to contain the node binary file to run the app. You could have used any image containing this binary, or you could have even used a Linux distribution base image such as fedora or ubuntu and installed Node.js into the container when building the image. But since the node image already contains everything needed to run Node.js apps, it doesn’t make sense to build the image from scratch. In some organizations, however, the use of a specific base image and adding software to it at build-time may be mandatory.
+You may wonder why use this specific image as your base. Because your app is a Node.js app, you need your image to contain the `node` binary file to run the app. You could have used any image containing this binary, or you could have even used a Linux distribution base image such as `fedora` or `ubuntu` and installed Node.js into the container when building the image. But since the `node` image already contains everything needed to run Node.js apps, it doesn’t make sense to build the image from scratch. In some organizations, however, the use of a specific base image and adding software to it at build-time may be mandatory.
 
 ## Building the container image
-The Dockerfile and the app.js file are everything you need to build your image. You’ll now build the image named kubia:latest using the command in the next listing:
+The `Dockerfile` and the `app.js` file are everything you need to build your image. You’ll now build the image named `kubia:latest` using the command in the next listing:
 
 ```shell
 Listing 2.4 Building the image
@@ -178,11 +180,11 @@ kubia        latest   b0ecc49d7a1d       1 minute ago        908 MB
 ```
 
 ### Understanding how the image was built
-Figure 2.11 shows what happens during the build process. You tell Docker to build an image called kubia based on the contents of the current directory. Docker reads the Dockerfile in the directory and builds the image based on the directives in the file.
+Figure 2.11 shows what happens during the build process. You tell Docker to build an image called `kubia` based on the contents of the current directory. Docker reads the Dockerfile in the directory and builds the image based on the directives in the file.
 
 ![](../images/2.11.png)
 
-The build itself isn’t performed by the docker CLI tool. Instead, the contents of the entire directory are uploaded to the Docker daemon and the image is built by it. You’ve already learned that the CLI tool and the daemon aren’t necessarily on the same computer. If you’re using Docker on a non-Linux system such as macOS or Windows, the client is in your host OS, but the daemon runs inside a Linux VM. But it could also run on a remote computer.
+The build itself isn’t performed by the `docker` CLI tool. Instead, the contents of the entire directory are uploaded to the Docker daemon and the image is built by it. You’ve already learned that the CLI tool and the daemon aren’t necessarily on the same computer. If you’re using Docker on a non-Linux system such as macOS or Windows, the client is in your host OS, but the daemon runs inside a Linux VM. But it could also run on a remote computer.
 
 {% hint style='info' %}
 TIP
@@ -190,14 +192,14 @@ TIP
 Don’t add unnecessary files to the build directory, as they will slow down the build process—especially if the Docker daemon is located on a remote system.
 {% endhint %}
 
-To build the image, Docker first pulls the base image (node:12) from the public image repository (Docker Hub in this case), unless the image is already stored locally. It then creates a new container from the image and executes the next directive from the Dockerfile. The container’s final state yields a new image with its own ID. The build process continues by processing the remaining directives in the Dockerfile. Each one creates a new image. The final image is then tagged with the tag you specified with the -t flag in the docker build command.
+To build the image, Docker first pulls the base image `(node:12)` from the public image repository (Docker Hub in this case), unless the image is already stored locally. It then creates a new container from the image and executes the next directive from the Dockerfile. The container’s final state yields a new image with its own ID. The build process continues by processing the remaining directives in the Dockerfile. Each one creates a new image. The final image is then tagged with the tag you specified with the `-t` flag in the `docker build` command.
 
 ### Understanding what the layers in the image are
 Some pages ago, you learned that images consist of several layers. One might think that each image consists of only the layers of the base image and a single new layer on top, but that’s not the case. When building an image, a new layer is created for each individual directive in the Dockerfile.
 
-During the build of the kubia image, after it pulls all the layers of the base image, Docker creates a new layer and adds the app.js file into it. It then creates yet another layer that holds just the command to run when the image is executed. This last layer is then tagged as kubia:latest.
+During the build of the kubia image, after it pulls all the layers of the base image, Docker creates a new layer and adds the `app.js` file into it. It then creates yet another layer that holds just the command to run when the image is executed. This last layer is then tagged as `kubia:latest`.
 
-You can see the layers of an image and their size by running docker history, as shown in the following listing. The top layers are printed first.
+You can see the layers of an image and their size by running `docker history`, as shown in the following listing. The top layers are printed first.
 
 ```shell
 Listing 2.6 Displaying the layers of a container image
@@ -221,16 +223,16 @@ e498dabfee1c  2 days ago  /bin/sh -c #(nop) CMD ["node"]          0B
 <missing>     3 weeks ago /bin/sh -c #(nop) ADD file:9788b61de…   101MB
 ```
 
-Most of the layers you see come from the node:12 image (they also include layers of that image’s own base image). The two uppermost layers correspond to the second and third directives in the Dockerfile (ADD and ENTRYPOINT).
+Most of the layers you see come from the `node:12` image (they also include layers of that image’s own base image). The two uppermost layers correspond to the second and third directives in the Dockerfile (`ADD` and `ENTRYPOINT`).
 
-As you can see in the CREATED BY column, each layer is created by executing a command in the container. In addition to adding files with the ADD directive, you can also use other directives in the Dockerfile. For example, the RUN directive executes a command in the container during the build. In the listing above, you’ll find a layer where the apt-get update and some additional apt-get commands were executed. apt-get is part of the Ubuntu package manager used to install software packages. The command shown in the listing installs some packages onto the image’s filesystem.
+As you can see in the `CREATED BY` column, each layer is created by executing a command in the container. In addition to adding files with the `ADD` directive, you can also use other directives in the Dockerfile. For example, the `RUN` directive executes a command in the container during the build. In the listing above, you’ll find a layer where the apt-get update and some additional `apt-get` commands were executed. `apt-get` is part of the Ubuntu package manager used to install software packages. The command shown in the listing installs some packages onto the image’s filesystem.
 
 To learn about RUN and other directives you can use in a Dockerfile, refer to the Dockerfile reference at https://docs.docker.com/engine/reference/builder/[https://docs.docker.com/engine/reference/builder/].
 
 {% hint style='info' %}
 TIP
 
-Each directive creates a new layer. I have already mentioned that when you delete a file, it is only marked as deleted in the new layer and is not removed from the layers below. Therefore, deleting a file with a subsequent directive won’t reduce the size of the image. If you use the RUN directive, make sure that the command it executes deletes all temporary files it creates before it terminates.
+Each directive creates a new layer. I have already mentioned that when you delete a file, it is only marked as deleted in the new layer and is not removed from the layers below. Therefore, deleting a file with a subsequent directive won’t reduce the size of the image. If you use the `RUN` directive, make sure that the command it executes deletes all temporary files it creates before it terminates.
 {% endhint %}
 
 ## Running the container image
@@ -240,9 +242,9 @@ $ docker run --name kubia-container -p 1234:8080 -d kubia
 9d62e8a9c37e056a82bb1efad57789e947df58669f94adc2006c087a03c54e02
 ```
 
-This tells Docker to run a new container called kubia-container from the kubia image. The container is detached from the console (-d flag) and runs in the background. Port 1234 on the host computer is mapped to port 8080 in the container (specified by the -p 1234:8080 option), so you can access the app at http://localhost:1234.
+This tells Docker to run a new container called `kubia-container` from the kubia image. The container is detached from the console (`-d` flag) and runs in the background. Port `1234` on the host computer is mapped to port 8080 in the container (specified by the `-p 1234:8080` option), so you can access the app at http://localhost:1234.
 
-The following figure should help you visualize how everything fits together. Note that the Linux VM exists only if you use macOS or Windows. If you use Linux directly, there is no VM and the box depicting port 1234 is at the edge of the local computer.
+The following figure should help you visualize how everything fits together. Note that the Linux VM exists only if you use macOS or Windows. If you use Linux directly, there is no VM and the box depicting port `1234` is at the edge of the local computer.
 
 ![](../images/2.12.png)
 
@@ -259,7 +261,7 @@ NOTE
 If the Docker Daemon runs on a different machine, you must replace localhost with the IP of that machine. You can look it up in the DOCKER_HOST environment variable.
 {% endhint %}
 
-If all went well, you should see the response sent by the application. In my case, it returns 44d76963e8e1 as its hostname. In your case, you’ll see a different hexadecimal number. This is the ID of the container that is displayed when you list them.
+If all went well, you should see the response sent by the application. In my case, it returns `44d76963e8e1` as its hostname. In your case, you’ll see a different hexadecimal number. This is the ID of the container that is displayed when you list them.
 
 ### Listing all running containers
 To list all the containers that are running on your computer, run the command that appears in the following listing. The output of the command has been edited to fit on the page—the last two lines of the output are the continuation of the first two.
@@ -277,7 +279,7 @@ CONTAINER ID    IMAGE           COMMAND          CREATED        ...
 For each container, Docker prints its ID and name, the image it uses, and the command it executes. It also shows when the container was created, what status it has, and which host ports are mapped to the container.
 
 ### Getting additional information about a container
-The docker ps command shows the most basic information about the containers. To see additional information, you can use docker inspect:
+The `docker ps` command shows the most basic information about the containers. To see additional information, you can use `docker inspect`:
 
 ```shell
 $ docker inspect kubia-container
@@ -286,7 +288,7 @@ $ docker inspect kubia-container
 Docker prints a long JSON-formatted document containing a lot of information about the container, such as its state, config, and network settings, including its IP address.
 
 ### Inspecting the application log
-Docker captures and stores everything the application writes to the standard output and error streams. This is typically the place where applications write their logs. You can use the docker logs command to see the output, as shown in the next listing.
+Docker captures and stores everything the application writes to the standard output and error streams. This is typically the place where applications write their logs. You can use the `docker logs` command to see the output, as shown in the next listing.
 
 ```shell
 Listing 2.7 Displaying the container’s log
@@ -302,10 +304,10 @@ You now know the basic commands for executing and inspecting an application in a
 ## Distributing container images
 The image you’ve built is currently only available locally. To run it on other computers, you must first push it to an external image registry. Let’s push it to the public Docker Hub registry, so that you don’t need to set up a private one. You can also use other registries, such as Quay.io, which I’ve already mentioned, or the Google Container Registry.
 
-Before you push the image, you must re-tag it according to Docker Hub’s image naming schema. The image name must include your Docker Hub ID, which you choose when you register at http://hub.docker.com. I’ll use my own ID (luksa) in the following examples, so remember to replace it with your ID when trying the commands yourself.
+Before you push the image, you must re-tag it according to Docker Hub’s image naming schema. The image name must include your Docker Hub ID, which you choose when you register at http://hub.docker.com. I’ll use my own ID (`luksa`) in the following examples, so remember to replace it with your ID when trying the commands yourself.
 
 ### Tagging an image under an additional tag
-Once you have your ID, you’re ready to add an additional tag for your image. Its current name is kubia and you’ll now tag it also as yourid/kubia:1.0 (replace yourid with your actual Docker Hub ID). This is the command I used:
+Once you have your ID, you’re ready to add an additional tag `for` your image. Its current name is `kubia` and you’ll now tag it also as `yourid/kubia:1.0` (replace `yourid` with your actual Docker Hub ID). This is the command I used:
 
 ```shell
 $ docker tag kubia luksa/kubia:1.0
@@ -322,16 +324,16 @@ kubia          latest    b0ecc49d7a1d    About an hour ago    908 MB
 node           12        e498dabfee1c    3 days ago           908 MB
 ```
 
-As you can see, both kubia and luksa/kubia:1.0 point to the same image ID, meaning that these aren’t two images, but a single image with two names.
+As you can see, both `kubia` and `luksa/kubia:1.0` point to the same image ID, meaning that these aren’t two images, but a single image with two names.
 
 ### Pushing the image to Docker Hub
-Before you can push the image to Docker Hub, you must log in with your user ID using the docker login command as follows:
+Before you can push the image to Docker Hub, you must log in with your user ID using the `docker login` command as follows:
 
 ```shell
 $ docker login -u yourid -p yourpassword docker.io
 ```
 
-Once logged in, push the yourid/kubia:1.0 image to Docker Hub with the following command:
+Once logged in, push the `yourid/kubia:1.0` image to Docker Hub with the following command:
 
 ```shell
 $ docker push yourid/kubia:1.0
@@ -359,15 +361,15 @@ $ docker stop kubia-container
 This sends a termination signal to the main process in the container so that it can shut down gracefully. If the process doesn’t respond to the termination signal or doesn’t shut down in time, Docker kills it. When the top-level process in the container terminates, no other process runs in the container, so the container is stopped.
 
 ### Deleting a container
-The container is no longer running, but it still exists. Docker keeps it around in case you decide to start it again. You can see stopped containers by running docker ps -a. The -a option prints all the containers - those running and those that have been stopped. As an exercise, you can start the container again by running docker start kubia-container.
+The container is no longer running, but it still exists. Docker keeps it around in case you decide to start it again. You can see stopped containers by running `docker ps -a`. The `-a` option prints all the containers - those running and those that have been stopped. As an exercise, you can start the container again by running `docker start kubia-container`.
 
-You can safely delete the container on the other host, because you no longer need it. To delete it, run the following docker rm command:
+You can safely delete the container on the other host, because you no longer need it. To delete it, run the following `docker rm` command:
 
 ```shell
 $ docker rm kubia-container
 ```
 
-This deletes the container. All its contents are removed and it can no longer be started. The image is still there, though. If you decide to create the container again, the image won’t need to be downloaded again. If you also want to delete the image, use the docker rmi command:
+This deletes the container. All its contents are removed and it can no longer be started. The image is still there, though. If you decide to create the container again, the image won’t need to be downloaded again. If you also want to delete the image, use the `docker rmi` command:
 
 ```shell
 $ docker rmi kubia:latest

@@ -41,7 +41,7 @@ In the next chapter you’ll learn that you don’t always want to isolate the c
 
 ![](../images/2.14.png)
 
-Concentrate on the shared network devices first. The two processes see and use the same two devices (eth0 and lo) because they use the same network namespace. This allows them to bind to the same IP address and communicate through the loopback device, just as they could if they were running on a machine that doesn’t use containers. The two processes also use the same UTS namespace and therefore see the same system host name. In contrast, they each use their own mount namespace, which means they have separate file systems.
+Concentrate on the shared network devices first. The two processes see and use the same two devices (`eth0` and `lo`) because they use the same network namespace. This allows them to bind to the same IP address and communicate through the loopback device, just as they could if they were running on a machine that doesn’t use containers. The two processes also use the same UTS namespace and therefore see the same system host name. In contrast, they each use their own mount namespace, which means they have separate file systems.
 
 In summary, processes may want to share some resources but not others. This is possible because separate namespace types exist. A process has an associated namespace for each type.
 
@@ -70,13 +70,13 @@ root@44d76963e8e1:/#
 
 This command runs bash as an additional process in the existing kubia-container container. The process has the same Linux namespaces as the main container process (the running Node.js server). This way you can explore the container from within and see how Node.js and your app see the system when running in the container. The -it option is shorthand for two options:
 
-* -i tells Docker to run the command in interactive mode.
-* -t tells it to allocate a pseudo terminal (TTY) so you can use the shell properly.
+* `-i` tells Docker to run the command in interactive mode.
+* `-t` tells it to allocate a pseudo terminal (TTY) so you can use the shell properly.
 
-You need both if you want to use the shell the way you’re used to. If you omit the first, you can’t execute any commands, and if you omit the second, the command prompt doesn’t appear and some commands may complain that the TERM variable is not set.
+You need both if you want to use the shell the way you’re used to. If you omit the first, you can’t execute any commands, and if you omit the second, the command prompt doesn’t appear and some commands may complain that the `TERM` variable is not set.
 
 ### Listing running processes in a container
-Let’s list the processes running in the container by executing the ps aux command inside the shell you ran in the container. The following listing shows the command’s output.
+Let’s list the processes running in the container by executing the `ps aux` command inside the shell you ran in the container. The following listing shows the command’s output.
 
 Listing 2.8 Listing processes running in the container
 root@44d76963e8e1:/# ps aux
@@ -99,7 +99,7 @@ root  382  0.0  0.1 676380 16504 ?   Sl   12:31 0:00 node app.js
 {% hint style='info' %}
 NOTE
 
-If you use macOS or Windows, you must list the processes in the VM that hosts the Docker daemon, as that’s where your containers run. In Docker Desktop, you can enter the VM using the following command: docker run --net=host --ipc=host --uts=host --pid=host -it --security-opt=seccomp=unconfined --privileged --rm -v /:/host alpine chroot /host
+If you use macOS or Windows, you must list the processes in the VM that hosts the Docker daemon, as that’s where your containers run. In Docker Desktop, you can enter the VM using the following command: `docker run --net=host --ipc=host --uts=host --pid=host -it --security-opt=seccomp=unconfined --privileged --rm -v /:/host alpine chroot /host`
 {% endhint %}
 
 If you have a sharp eye, you may notice that the process IDs in the container are different from those on the host. Because the container uses its own Process ID namespace it has its own process tree with its own ID number sequence. As the next figure shows, the tree is a subtree of the host’s full process tree. Each process thus has two IDs.
@@ -116,9 +116,9 @@ app.js  boot  etc   lib    media  opt   root  sbin  sys  usr
 bin     dev   home  lib64  mnt    proc  run   srv   tmp  var
 ```
 
-It contains the app.js file and other system directories that are part of the node:12 base image. You are welcome to browse the container’s filesystem. You’ll see that there is no way to view files from the host’s filesystem. This is great, because it prevents a potential attacker from gaining access to them through vulnerabilities in the Node.js server.
+It contains the `app.js` file and other system directories that are part of the `node:12` base image. You are welcome to browse the container’s filesystem. You’ll see that there is no way to view files from the host’s filesystem. This is great, because it prevents a potential attacker from gaining access to them through vulnerabilities in the Node.js server.
 
-To leave the container, leave the shell by running the exit command or pressing Control-D and you’ll be returned to your host computer (similar to logging out from an ssh session).
+To leave the container, leave the shell by running the `exit` command or pressing Control-D and you’ll be returned to your host computer (similar to logging out from an `ssh` session).
 
 {% hint style='info' %}
 TIP
@@ -135,22 +135,22 @@ The second Linux kernel feature that makes containers possible is called Linux C
 At this point, you don’t need to know how Control Groups do all this, but it may be worth seeing how you can ask Docker to limit the amount of CPU and memory a container can use.
 
 ### Limiting a container’s use of the CPU
-If you don’t impose any restrictions on the container’s use of the CPU, it has unrestricted access to all CPU cores on the host. You can explicitly specify which cores a container can use with Docker’s --cpuset-cpus option. For example, to allow the container to only use cores one and two, you can run the container with the following option:
+If you don’t impose any restrictions on the container’s use of the CPU, it has unrestricted access to all CPU cores on the host. You can explicitly specify which cores a container can use with Docker’s `--cpuset-cpus` option. For example, to allow the container to only use cores one and two, you can run the container with the following option:
 
 ```shell
 $ docker run --cpuset-cpus="1,2" ...
 ```
 
-You can also limit the available CPU time using options --cpus, --cpu-period, --cpu-quota and --cpu-shares. For example, to allow the container to use only half of a CPU core, run the container as follows:
+You can also limit the available CPU time using options `--cpus`, `--cpu-period`, `--cpu-quota` and `--cpu-shares`. For example, to allow the container to use only half of a CPU core, run the container as follows:
 
 ```shell
 $ docker run --cpus="0.5" ...
 ```
 
 ### Limiting a container’s use of memory
-As with CPU, a container can use all the available system memory, just like any regular OS process, but you may want to limit this. Docker provides the following options to limit container memory and swap usage: --memory, --memory-reservation, --kernel-memory, --memory-swap, and --memory-swappiness.
+As with CPU, a container can use all the available system memory, just like any regular OS process, but you may want to limit this. Docker provides the following options to limit container memory and swap usage: `--memory`, `--memory-reservation`, `--kernel-memory`, `--memory-swap`, and `--memory-swappiness`.
 
-For example, to set the maximum memory size available in the container to 100MB, run the container as follows (m stands for megabyte):
+For example, to set the maximum memory size available in the container to 100MB, run the container as follows (`m` stands for megabyte):
 
 ```shell
 $ docker run --memory="100m" ...
@@ -177,15 +177,15 @@ Most containers should run without elevated privileges. Only those programs that
 {% hint style='info' %}
 NOTE
 
-With Docker you create a privileged container by using the --privileged flag.
+With Docker you create a privileged container by using the `--privileged` flag.
 {% endhint %}
 
 ### Using Capabilities to give containers a subset of all privileges
 If an application only needs to invoke some of the sys-calls that require elevated privileges, creating a container with full privileges is not ideal. Fortunately, the Linux kernel also divides privileges into units called capabilities. Examples of capabilities are:
 
-* CAP_NET_ADMIN allows the process to perform network-related operations,
-* CAP_NET_BIND_SERVICE allows it to bind to port numbers less than 1024,
-* CAP_SYS_TIME allows it to modify the system clock, and so on.
+* `CAP_NET_ADMIN` allows the process to perform network-related operations,
+* `CAP_NET_BIND_SERVICE` allows it to bind to port numbers less than 1024,
+* `CAP_SYS_TIME allows` it to modify the system clock, and so on.
 
 Capabilities can be added or removed (dropped) from a container when you create it. Each capability represents a set of privileges available to the processes in the container. Docker and Kubernetes drop all capabilities except those required by typical applications, but users can add or drop other capabilities if authorized to do so.
 
