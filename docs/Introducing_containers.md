@@ -117,7 +117,7 @@ When you delete a file, it is only marked as deleted in the read/write layer, bu
 {% hint style='info' %}
 WARNING
 
-  Fonk emsynegil erlmsahs spnrieoato azdq cz gnanhcgi iissnepmors tk wsenoriph vl z fxlj ertlus jn z wnk eabh el uor eentir ojlf niebg aeetdrc jn qor trid/eewra aeryl. Jl qkb mrfpeor crjg obrg le torainoep xn s agrel vljf tk cgnm lsefi, rpv egmia jccv gms llwes niytnafgsiicl.
+  Even seemingly harmless operations such as changing permissions or ownership of a file result in a new copy of the entire file being created in the read/write layer. If you perform this type of operation on a large file or many files, the image size may swell significantly.
 {% endhint %}
 
 
