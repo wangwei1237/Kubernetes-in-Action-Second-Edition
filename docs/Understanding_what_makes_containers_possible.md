@@ -82,12 +82,14 @@ You need both if you want to use the shell the way you’re used to. If you omit
 ### Listing running processes in a container
 Let’s list the processes running in the container by executing the `ps aux` command inside the shell you ran in the container. The following listing shows the command’s output.
 
+```
 Listing 2.8 Listing processes running in the container
 root@44d76963e8e1:/# ps aux
 USER  PID %CPU %MEM    VSZ   RSS TTY STAT START TIME COMMAND
 root    1  0.0  0.1 676380 16504 ?   Sl   12:31 0:00 node app.js
 root   10  0.0  0.0  20216  1924 ?   Ss   12:31 0:00 bash
 root   19  0.0  0.0  17492  1136 ?   R+   12:38 0:00 ps aux
+```
 
 The list shows only three processes. These are the only ones that run in the container. You can’t see the other processes that run in the host OS or in other containers because the container runs in its own Process ID namespace.
 
@@ -107,6 +109,8 @@ If you use macOS or Windows, you must list the processes in the VM that hosts th
 {% endhint %}
 
 If you have a sharp eye, you may notice that the process IDs in the container are different from those on the host. Because the container uses its own Process ID namespace it has its own process tree with its own ID number sequence. As the next figure shows, the tree is a subtree of the host’s full process tree. Each process thus has two IDs.
+
+Figure 2.15 The PID namespace makes a process sub-tree appear as a separate process tree with its own numbering sequence
 
 ![](../images/2.15.png)
 
@@ -162,7 +166,7 @@ $ docker run --memory="100m" ...
 
 Behind the scenes, all these Docker options merely configure the cgroups of the process. It’s the Kernel that takes care of limiting the resources available to the process. See the Docker documentation for more information about the other memory and CPU limit options.
 
-## trengthening isolation between containers
+## Strengthening isolation between containers
 Linux Namespaces and Cgroups separate the containers’ environments and prevent one container from starving the other containers of compute resources. But the processes in these containers use the same system kernel, so we can’t say that they are really isolated. A rogue container could make malicious system calls that would affect its neighbours. 
 
 Imagine a Kubernetes node on which several containers run. Each has its own network devices and files and can only consume a limited amount of CPU and memory. At first glance, a rogue program in one of these containers can’t cause damage to the other containers. But what if the rogue program modifies the system clock that is shared by all containers?

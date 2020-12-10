@@ -3,7 +3,7 @@
 This chapter covers
 * Running a single-node Kubernetes cluster on your laptop
 * Setting up a Kubernetes cluster on Google Kubernetes Engine
-* Setting up and using the kubectl command-line tool
+* Setting up and using the `kubectl` command-line tool
 * Deploying an application in Kubernetes and making it available across the globe
 * Horizontally scaling the application
 
