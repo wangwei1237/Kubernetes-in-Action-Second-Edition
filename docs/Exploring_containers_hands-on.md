@@ -9,7 +9,7 @@ The Docker Platform consists of many components, but you only need to install Do
 {% hint style='info' %}
 NOTE
 
-  Docker Desktop for Windows can run either Windows or Linux containers. Make sure that you configure it to use Linux containers.
+Docker Desktop for Windows can run either Windows or Linux containers. Make sure that you configure it to use Linux containers.
 {% endhint %}
 
 ### Running a Hello World container
@@ -77,7 +77,9 @@ Even for a single version, there are usually several variants of an image. For R
 
 To run a specific version and/or variant of the image, specify the tag in the image name. For example, to run the `5.0.7-alpine` tag, you’d execute the following command:
 
+```
 $ docker run redis:5.0.7-alpine
+```
 
 ## Creating a containerized Node.js web application
 Now that you have a working Docker setup, you’ll create an app that you’ll use throughout the book. You’ll create a trivial Node.js web application and package it into a container image. The application will accept HTTP requests and respond with the hostname of the computer it’s running on.
@@ -135,7 +137,7 @@ ENTRYPOINT ["node", "app.js"]
 The FROM line defines the container image that you’ll use as the starting point (the base image you’re building on top of). In your case, you use the `node` container image, tag 12. In the second line, you add the `app.js` file from your local directory into the root directory of the image, under the same name (`app.js`). Finally, in the third line, you specify the command that Docker should run when you execute the image. In your case, the command is `node app.js`.
 
 {% hint style='info' %}
-  Choosing a base image
+Choosing a base image
 {% endhint %}
 
 You may wonder why use this specific image as your base. Because your app is a Node.js app, you need your image to contain the `node` binary file to run the app. You could have used any image containing this binary, or you could have even used a Linux distribution base image such as `fedora` or `ubuntu` and installed Node.js into the container when building the image. But since the `node` image already contains everything needed to run Node.js apps, it doesn’t make sense to build the image from scratch. In some organizations, however, the use of a specific base image and adding software to it at build-time may be mandatory.

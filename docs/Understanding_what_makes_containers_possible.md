@@ -15,7 +15,7 @@ The following types of namespaces exist:
 * The Process ID namespace (pid) isolates process IDs.
 * The Network namespace (net) isolates network devices, stacks, ports, etc.
 * The Inter-process communication namespace (ipc) isolates the communication between processes (this includes isolating message queues, shared memory, and others).
-* Rqk DOJY Rmjv-ansrhgi Ssyetm (DXS) emaacsnpe stsealoi xrq msyste tmonshae unc rbk Drkotew Jmoitrnnfoa Seecvri (QJS) nidmoa nmso.
+* The UNIX Time-sharing System (UTS) namespace isolates the system hostname and the Network Information Service (NIS) domain name.
 * The User ID namespace (user) isolates user and group IDs.
 * The Cgroup namespace isolates the Control Groups root directory. You’ll learn about cgroups later in this chapter.
 
@@ -23,6 +23,8 @@ The following types of namespaces exist:
 The network namespace in which a process runs determines what network interfaces the process can see. Each network interface belongs to exactly one namespace but can be moved from one namespace to another. If each container uses its own network namespace, each container sees its own set of network interfaces.
 
 Examine figure 2.13 for a better overview of how network namespaces are used to create a container. Imagine you want to run a containerized process and provide it with a dedicated set of network interfaces that only that process can use.
+
+Figure 2.13 The network namespace limits which network interfaces a process uses
 
 ![](../images/2.13.png)
 
@@ -38,6 +40,8 @@ By creating a dedicated namespace instance for all available namespace types and
 
 ### Sharing namespaces between multiple processes
 In the next chapter you’ll learn that you don’t always want to isolate the containers completely from each other. Related containers may want to share certain resources. The following figure shows an example of two processes that share the same network interfaces and the host and domain name of the system, but not the file system.
+
+Figure 2.14 Each process is associated with multiple namespace types, some of which can be shared.
 
 ![](../images/2.14.png)
 
