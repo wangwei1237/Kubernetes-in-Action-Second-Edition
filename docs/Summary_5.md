@@ -1,4 +1,4 @@
-# Summary
+# 5.7 Summary
 In this chapter, you’ve learned:
 
 * Pods run one or more containers as a co-located group. They are the unit of deployment and horizontal scaling. A typical container runs only one process. Sidecar containers complement the primary container in the pod.

@@ -1,4 +1,4 @@
-# Interacting with the application and the pod
+# 5.3 Interacting with the application and the pod
 Your container is now running. In this section, you’ll learn how to communicate with the application, inspect its logs, and execute commands in the container to explore the application’s environment. Let’s confirm that the application running in the container responds to your requests.
 
 ## Sending requests to the application in the pod

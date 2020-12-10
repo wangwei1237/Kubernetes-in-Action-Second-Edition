@@ -1,4 +1,4 @@
-# Creating persistent volumes and claims
+# 8.2 Creating persistent volumes and claims
 Now that you have a basic understanding of persistent volumes and claims and their relationship to the pods, let’s revisit the MongoDB pod with the GCE Persistent Disk volume from the previous chapter and reconfigure it to use a persistent volume.
 
 As explained earlier, there are usually two different types of Kubernetes users involved in the provisioning and use of persistent volumes. In the following exercises, you will first take on the role of the cluster administrator to create the persistent volume. Then you’ll take on the role of a regular user to create the claim and deploy the pod.

@@ -1,4 +1,4 @@
-# Understanding pods
+# 5.1 Understanding pods
 You’ve already learned that a pod is a co-located group of containers and the basic building block in Kubernetes. Instead of deploying containers individually, you deploy and manage a group of containers as a single unit — a pod. Although pods may contain several, it’s not uncommon for a pod to contain just a single container. When a pod has multiple containers, all of them run on the same worker node — a single pod instance never spans multiple nodes. Figure 5.2 will help you visualize this information.
 
 Figure 5.2 All containers of a pod run on the same node. A pod never spans multiple nodes.

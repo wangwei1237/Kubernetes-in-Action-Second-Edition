@@ -1,4 +1,4 @@
-# Summary
+# 6.5 Summary
 In this chapter, you’ve learned:
 
 * The status of the pod contains information about the phase of the pod, its conditions, and the status of each of its containers. You can view the status by running the `kubectl describe` command or by retrieving the full pod manifest using the command `kubectl get -o yaml`.

@@ -1,4 +1,4 @@
-# Summary
+# 7.5 Summary
 This chapter has explained the basics of adding volumes to pods, but this was only the beginning. You’ll learn more about this topic in the next chapter. So far you’ve learned this:
 
 * Pods consist of containers and volumes. Each volume can be mounted at the desired location in the container’s filesystem.

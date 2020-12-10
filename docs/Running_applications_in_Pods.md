@@ -1,4 +1,4 @@
-# Running applications in Pods
+# 5. Running applications in Pods
 {% hint style='info' %}
 This chapter covers
 

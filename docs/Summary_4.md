@@ -1,4 +1,4 @@
-# Summary
+# 4.4 Summary
 In this chapter, you’ve learned:
 
 * Kubernetes provides a RESTful API for interaction with a cluster. API Objects map to actual components that make up the cluster, including applications, load balancers, nodes, storage volumes, and many others.

@@ -1,4 +1,4 @@
-# Integrating external storage into pods
+# 7.3 Integrating external storage into pods
 An emptyDir volume is basically a dedicated directory created specifically for and used exclusively by the pod that contains the volume. When the pod is deleted, the volume and its contents are deleted. However, other types of volumes don’t create a new directory, but instead mount an existing external directory in the filesystem of the container. The contents of this volume can survive multiple instantiations of the same pod and can even be shared by multiple pods. These are the types of volumes we’ll explore next.
 
 To learn how external storage is used in a pod, you’ll create a pod that runs the document-oriented database MongoDB. To ensure that the data stored in the database is persisted, you’ll add a volume to the pod and mount it in the container at the location where MongoDB writes its data files.

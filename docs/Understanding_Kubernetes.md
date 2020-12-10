@@ -1,4 +1,4 @@
-# Understanding Kubernetes
+# 1.2 Understanding Kubernetes
 The previous section explained the origins of Kubernetes and the reasons for its wide adoption. In this section we’ll take a closer look at what exactly Kubernetes is.
 
 ## Understanding how Kubernetes transforms a computer cluster

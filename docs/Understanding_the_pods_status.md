@@ -1,4 +1,4 @@
-# Understanding the pod's status
+# 6.1 Understanding the pod's status
 After you create a pod object and it runs, you can see what’s going on with the pod by reading the pod object back from the API. As you’ve learned in chapter 4, the pod object manifest, as well as the manifests of most other kinds of objects, contain a section, which provides the status of the object. A pod’s status section contains the following information:
 
 * the IP addresses of the pod and the worker node that hosts it

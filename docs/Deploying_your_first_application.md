@@ -1,4 +1,4 @@
-# 3 Deploying your first application
+# 3. Deploying your first application
 
 This chapter covers
 * Running a single-node Kubernetes cluster on your laptop

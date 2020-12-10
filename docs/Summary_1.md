@@ -1,4 +1,4 @@
-# Summary
+# 1.4 Summary
 In this introductory chapter, you’ve learned that:
 
 * Kubernetes is Greek for helmsman. As a ship’s captain oversees the ship while the helmsman steers it, you oversee your computer cluster, while Kubernetes performs the day-to-day management tasks.

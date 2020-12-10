@@ -1,4 +1,4 @@
-# 3.4      Summary
+# 3.4 Summary
 
 In this hands-on chapter, you’ve learned:
 
@@ -14,4 +14,3 @@ In this hands-on chapter, you’ve learned:
 * Each service provides internal load balancing in the cluster, but if you set the type of service to `LoadBalancer`, Kubernetes will ask the cloud infrastructure it runs in for an additional load balancer to make your application available at a publicly accessible address.
   
 You’ve now completed your first guided tour around the bay. Now it’s time to start learning the ropes, so that you’ll be able to sail independently. The next part of the book focuses on the different Kubernetes objects and how/when to use them. You’ll start with the most important one – the Pod.
-

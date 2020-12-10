@@ -1,4 +1,4 @@
-# Summary
+# 8.5 Summary
 This chapter explained the details of adding persistent storage for your applications. You’ve learned that:
 
 * Infrastructure-specific information about storage volumes doesn’t belong in pod manifests. Instead, it should be specified in the PersistentVolume object.

@@ -1,4 +1,4 @@
-# Introducing the Kubernetes API objects
+# 4. Introducing the Kubernetes API objects
 
 {% hint style='info' %}
 This chapter covers

@@ -1,4 +1,4 @@
-# Creating pods from YAML or JSON files
+# 5.2 Creating pods from YAML or JSON files
 With the information you learned in the previous sections, you can now start creating pods. In chapter 3, you created them using the imperative command `kubectl create`, but pods and other Kubernetes objects are usually created by creating a JSON or YAML manifest file and posting it to the Kubernetes API, as you’ve already learned in the previous chapter.
 
 {% hint style='info' %}

@@ -1,4 +1,4 @@
-# Keeping containers healthy
+# 6.2 Keeping containers healthy
 The pods you created in the previous chapter ran without any problems. But what if one of the containers dies? What if all the containers in a pod die? How do you keep the pods healthy and their containers running? That’s the focus of this section.
 
 ## Understanding container auto-restart
