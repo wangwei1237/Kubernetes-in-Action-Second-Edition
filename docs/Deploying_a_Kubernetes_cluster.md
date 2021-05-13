@@ -135,6 +135,7 @@ The output of the command shows that the Kubernetes host (the VM that hosts Kube
 
 ### Visualizing the system
 The architecture of the system, which is shown in the next figure, is practically identical to the one in Docker Desktop.
+
 Figure 3.3 Running a single-node Kubernetes cluster using Minikube
 ![Figure 3.3 Running a single-node Kubernetes cluster using Minikube](../images/3.3.png)
 
