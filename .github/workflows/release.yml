@@ -40,7 +40,6 @@ jobs:
         run: |
           mkdir node_modules && cd node_modules && npm install gitbook-plugin-sitemap-general && cd .. 
           gitbook install
-          cp misc/tbfed-pagefooter_index.js node_modules/gitbook-plugin-tbfed-pagefooter/index.js
           gitbook build
           cp misc/style.css _book/gitbook
           cp misc/website.css _book/gitbook/gitbook-plugin-fontsettings
