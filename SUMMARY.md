@@ -54,6 +54,8 @@
     * [8.3 Dynamic provisioning of persistent volumes](docs/Dynamic_provisioning_of_persistent_volumes.md)
     * [8.4 Node-local persistent volumes](docs/Nodelocal_persistent_volumes.md)
     * [8.5 Summary](docs/Summary_8.md)
-
+* [9. Configuring applications using ConfigMaps, Secrets, and the Downward API](docs/Configuring_applications_using_ConfigMaps_Secrets_and_the_Downward_API.md)
+    * [9.1 Setting the command, arguments, and environment variables](docs/Setting_the_command_arguments_and_environment_variables.md)
+    * [9.2 Using a config map to decouple configuration from the pod](docs/Using_a_config_map_to_decouple_configuration_from_the_pod.md)
 
 
