@@ -57,5 +57,9 @@
 * [9. Configuring applications using ConfigMaps, Secrets, and the Downward API](docs/Configuring_applications_using_ConfigMaps_Secrets_and_the_Downward_API.md)
     * [9.1 Setting the command, arguments, and environment variables](docs/Setting_the_command_arguments_and_environment_variables.md)
     * [9.2 Using a config map to decouple configuration from the pod](docs/Using_a_config_map_to_decouple_configuration_from_the_pod.md)
+    * [9.3 Using Secrets to pass sensitive data to containers](docs/Using_Secrets_to_pass_sensitive_data_to_containers.md)
+    * [9.4 Passing pod metadata to the application via the Downward API](docs/Passing_pod_metadata_to_the_application_via_the_Downward_API.md)
+    * [9.5 Using projected volumes to combine volumes into one](docs/Using_projected_volumes_to_combine_volumes_into_one.md)
+    * [9.6 Summary](docs/Summary_9.md)
 
 
