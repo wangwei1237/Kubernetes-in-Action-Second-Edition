@@ -31,7 +31,8 @@ You can’t use the Downward API to inject any field from the pod object. Only c
 
 Table 9.5 Downward API fields injected via the fieldRef field
 |Field|Description|Allowed in env|Allowed in volume|
-|metadata.name||The pod’s name.|Yes|Yes|
+|---|---|---|---|
+|metadata.name|The pod’s name.|Yes|Yes|
 |metadata.namespace|The pod’s namespace.|Yes|Yes|
 |metadata.uid|The pod’s UID.|Yes|Yes|
 |metadata.labels|All the pod’s labels, one label per line, formatted as key=”value”.|No|Yes|
@@ -49,6 +50,7 @@ Information about the container’s computational resource constraints is inject
 
 Table 9.6 Downward API resource fields injected via the resourceFieldRef field
 |Resource field|Description|Allowed in env|Allowed in vol|
+|---|---|---|---|
 |requests.cpu|The container’s CPU request.|Yes|Yes|
 |requests.memory|The container’s memory request.|Yes|Yes|
 |requests.ephemeral-storage|The container’s ephemeral storage request.|Yes|Yes|

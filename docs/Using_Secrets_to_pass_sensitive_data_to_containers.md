@@ -11,6 +11,7 @@ The structure of a secret is slightly different from that of a config map. The f
 
 Table 9.3 Differences in the structure of secrets and config maps
 |Secret|ConfigMap|Description|
+|---|---|---|
 |data|binaryData|A map of key-value pairs. The values are Base64-encoded strings.|
 |stringData|data|A map of key-value pairs. The values are plain text strings. The stringData field in secrets is write-only.|
 |immutable|immutable|A boolean value indicating whether the data stored in the object can be updated or not.|
@@ -29,6 +30,7 @@ Mnxg dqx earetc s eetcrs cnu ckr crj hdrx rx vvn kl rkd ltuib-nj pytse, jr rhzm 
 
 Table 9.4 Types of secrets
 |Built-in secret type|Description|
+|---|---|
 |Opaque|This type of secret can contain secret data stored under arbitrary keys. If you create a secret with no type field, an Opaque secret is created.|
 |bootstrap.kubernetes.io/token|This type of secret is used for tokens that are used when bootstrapping new cluster nodes.|
 |kubernetes.io/basic-auth|This type of secret stores the credentials required for basic authentication. It must contain the username and password keys.|
