@@ -30,6 +30,7 @@ Alternatively, you can project the pod’s metadata as files into the container�
 You can’t use the Downward API to inject any field from the pod object. Only certain fields are supported. The following table shows the fields you can inject via fieldRef, and whether they can only be exposed via environment variables, files, or both.
 
 Table 9.5 Downward API fields injected via the fieldRef field
+
 | Field | Description | Allowed in env | Allowed in volume |
 |---|---|---|---|
 | metadata.name | The pod’s name. | Yes | Yes |
@@ -49,6 +50,7 @@ You may not know most of these fields yet, but you will in the remaining chapter
 Information about the container’s computational resource constraints is injected via the resourceFieldRef field. They can all be injected into environment variables and via a downwardAPI volume. The following table lists them.
 
 Table 9.6 Downward API resource fields injected via the resourceFieldRef field
+
 | Resource field |Description | Allowed in env | Allowed in vol |
 |---|---|---|---|
 | requests.cpu | The container’s CPU request. | Yes | Yes |

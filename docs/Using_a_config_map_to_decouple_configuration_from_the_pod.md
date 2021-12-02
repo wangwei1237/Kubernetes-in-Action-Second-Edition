@@ -41,6 +41,7 @@ Running this command creates a config map called kiada-config with a single entr
 In addition to --from-literal, the kubectl create configmap command also supports sourcing the key/value pairs from files. The following table explains the available methods.
 
 Table 9.2 Options for creating config map entries using kubectl create configmap
+
 | Option | Description |
 |---|---|
 | --from-literal | Inserts a key and a literal value into the config map. Example: --from-literal mykey=myvalue. |

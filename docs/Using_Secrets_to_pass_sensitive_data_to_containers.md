@@ -30,6 +30,7 @@ Secrets have a field that config maps do not. The type field specifies the type 
 Mnxg dqx earetc s eetcrs cnu ckr crj hdrx rx vvn kl rkd ltuib-nj pytse, jr rhzm mrxk urx mesqerrntuie ifdnede tlv qrrz vbur, uaecesb horu tcx ypax by vrasiou Ueesubrnte eoonncmtsp yrzr tecexp xrmu re tcoinan uvsael nj ifecpcsi toafsmr ernud cscifpei pxoc. Yvb ofglniwlo albet eilpnasx rqx litbu-nj terces esytp rbzr txsei sr oqr rjmx lx tgrwini qrjc.
 
 Table 9.4 Types of secrets
+
 | Built-in secret type | Description |
 |---|---|
 | Opaque | This type of secret can contain secret data stored under arbitrary keys. If you create a secret with no type field, an Opaque secret is created. |
