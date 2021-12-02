@@ -42,7 +42,7 @@ In addition to --from-literal, the kubectl create configmap command also support
 
 Table 9.2 Options for creating config map entries using kubectl create configmap
 | Option | Description |
-| --- | --- |
+|---|---|
 | --from-literal | Inserts a key and a literal value into the config map. Example: --from-literal mykey=myvalue. |
 | --from-file | Inserts the contents of a file into the config map. The behavior depends on the argument that comes after --from-file:
 

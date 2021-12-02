@@ -30,33 +30,33 @@ Alternatively, you can project the pod’s metadata as files into the container�
 You can’t use the Downward API to inject any field from the pod object. Only certain fields are supported. The following table shows the fields you can inject via fieldRef, and whether they can only be exposed via environment variables, files, or both.
 
 Table 9.5 Downward API fields injected via the fieldRef field
-|Field|Description|Allowed in env|Allowed in volume|
+| Field | Description | Allowed in env | Allowed in volume |
 |---|---|---|---|
-|metadata.name|The pod’s name.|Yes|Yes|
-|metadata.namespace|The pod’s namespace.|Yes|Yes|
-|metadata.uid|The pod’s UID.|Yes|Yes|
-|metadata.labels|All the pod’s labels, one label per line, formatted as key=”value”.|No|Yes|
-|metadata.labels['key']|The value of the specified label.|Yes|Yes|
-|metadata.annotations|All the pod’s annotations, one per line, formatted as key=”value”.|No|Yes|
-|metadata.annotations['key']|The value of the specified annotation.|Yes|Yes|
-|spec.nodeName|The name of the worker node the pod runs on.|Yes|No|
-|spec.serviceAccountName|The name of the pod’s service account.|Yes|No|
-|status.podIP|The pod’s IP address.|Yes|No|
-|status.hostIP|The worker node’s IP address.|Yes|No|
+| metadata.name | The pod’s name. | Yes | Yes |
+| metadata.namespace | The pod’s namespace. | Yes | Yes |
+| metadata.uid | The pod’s UID. | Yes | Yes |
+| metadata.labels | All the pod’s labels, one label per line, formatted as key=”value”. | No | Yes |
+| metadata.labels['key'] | The value of the specified label. | Yes | Yes |
+| metadata.annotations | All the pod’s annotations, one per line, formatted as key=”value”. | No | Yes |
+| metadata.annotations['key'] | The value of the specified annotation. | Yes | Yes |
+| spec.nodeName | The name of the worker node the pod runs on. | Yes | No |
+| spec.serviceAccountName | The name of the pod’s service account. | Yes | No |
+| status.podIP | The pod’s IP address. | Yes | No |
+| status.hostIP | The worker node’s IP address. | Yes | No |
 
 You may not know most of these fields yet, but you will in the remaining chapters of this book. As you can see, some fields can only be injected into environment variables, whereas others can only be projected into files. Some allow doing both.
 
 Information about the container’s computational resource constraints is injected via the resourceFieldRef field. They can all be injected into environment variables and via a downwardAPI volume. The following table lists them.
 
 Table 9.6 Downward API resource fields injected via the resourceFieldRef field
-|Resource field|Description|Allowed in env|Allowed in vol|
+| Resource field |Description | Allowed in env | Allowed in vol |
 |---|---|---|---|
-|requests.cpu|The container’s CPU request.|Yes|Yes|
-|requests.memory|The container’s memory request.|Yes|Yes|
-|requests.ephemeral-storage|The container’s ephemeral storage request.|Yes|Yes|
-|limits.cpu|The container’s CPU limit.|Yes|Yes|
-|limits.memory|The container’s memory limit.|Yes|Yes|
-|limits.ephemeral-storage|The container’s ephemeral storage limit.|Yes|Yes|
+| requests.cpu | The container’s CPU request. | Yes | Yes |
+| requests.memory | The container’s memory request. | Yes | Yes |
+| requests.ephemeral-storage | The container’s ephemeral storage request. | Yes | Yes |
+| limits.cpu | The container’s CPU limit. | Yes | Yes |
+| limits.memory | The container’s memory limit. | Yes | Yes |
+| limits.ephemeral-storage | The container’s ephemeral storage limit. | Yes | Yes |
 
 You’ll learn what resource requests and limits are in chapter 20, which explains how to constrain the compute resources available to a container.
 

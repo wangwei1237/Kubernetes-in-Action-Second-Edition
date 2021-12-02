@@ -10,12 +10,13 @@ Kubernetes supported secrets even before config maps were added. Originally, sec
 The structure of a secret is slightly different from that of a config map. The following table shows the fields in each of the two object types.
 
 Table 9.3 Differences in the structure of secrets and config maps
-|Secret|ConfigMap|Description|
+
+| Secret | ConfigMap | Description |
 |---|---|---|
-|data|binaryData|A map of key-value pairs. The values are Base64-encoded strings.|
-|stringData|data|A map of key-value pairs. The values are plain text strings. The stringData field in secrets is write-only.|
-|immutable|immutable|A boolean value indicating whether the data stored in the object can be updated or not.|
-|type|N/A|A string indicating the type of secret. Can be any string value, but several built-in types have special requirements.|
+| data | binaryData | A map of key-value pairs. The values are Base64-encoded strings. |
+| stringData | data | A map of key-value pairs. The values are plain text strings. The stringData field in secrets is write-only. |
+| immutable | immutable | A boolean value indicating whether the data stored in the object can be updated or not. |
+| type | N/A | A string indicating the type of secret. Can be any string value, but several built-in types have special requirements. |
 
 As you can see in the table, the data field in secrets corresponds to the binaryData field in config maps. It can contain binary values as Base64-encoded strings. The stringData field in secrets is equivalent to the data field in config maps and is used to store plain text values. This stringData field in secrets is write-only. You can use it to add plaintext values to the secret without having to encode them manually. When you read back the Secret object, any values you added to stringData will be included in the data field as Base64-encoded strings.
 
@@ -29,16 +30,16 @@ Secrets have a field that config maps do not. The type field specifies the type 
 Mnxg dqx earetc s eetcrs cnu ckr crj hdrx rx vvn kl rkd ltuib-nj pytse, jr rhzm mrxk urx mesqerrntuie ifdnede tlv qrrz vbur, uaecesb horu tcx ypax by vrasiou Ueesubrnte eoonncmtsp yrzr tecexp xrmu re tcoinan uvsael nj ifecpcsi toafsmr ernud cscifpei pxoc. Yvb ofglniwlo albet eilpnasx rqx litbu-nj terces esytp rbzr txsei sr oqr rjmx lx tgrwini qrjc.
 
 Table 9.4 Types of secrets
-|Built-in secret type|Description|
+| Built-in secret type | Description |
 |---|---|
-|Opaque|This type of secret can contain secret data stored under arbitrary keys. If you create a secret with no type field, an Opaque secret is created.|
-|bootstrap.kubernetes.io/token|This type of secret is used for tokens that are used when bootstrapping new cluster nodes.|
-|kubernetes.io/basic-auth|This type of secret stores the credentials required for basic authentication. It must contain the username and password keys.|
-|kubernetes.io/dockercfg|This type of secret stores the credentials required for accessing a Docker image registry. It must contain a key called .dockercfg, where the value is the contents of the ~/.dockercfg configuration file used by legacy versions of Docker.|
-|kubernetes.io/dockerconfigjson|Like above, this type of secret stores the credentials for accessing a Docker registry, but uses the newer Docker configuration file format. The secret must contain a key called .dockerconfigjson. The value must be the contents of the ~/.docker/config.json file used by Docker.|
-|kubernetes.io/service-account-token|This type of secret stores a token that identifies a Kubernetes service account. You'll learn about service accounts and this token in chapter 23.|
-|kubernetes.io/ssh-auth|This type of secret stores the private key used for SSH authentication. The private key must be stored under the key ssh-privatekey in the secret.|
-|kubernetes.io/tls|This type of secrets stores a TLS certificate and the associated private key. They must be stored in the secret under the key tls.crt and tls.key, respectively.|
+| Opaque | This type of secret can contain secret data stored under arbitrary keys. If you create a secret with no type field, an Opaque secret is created. |
+| bootstrap.kubernetes.io/token | This type of secret is used for tokens that are used when bootstrapping new cluster nodes. |
+| kubernetes.io/basic-auth | This type of secret stores the credentials required for basic authentication. It must contain the username and password keys. |
+| kubernetes.io/dockercfg | This type of secret stores the credentials required for accessing a Docker image registry. It must contain a key called .dockercfg, where the value is the contents of the ~/.dockercfg configuration file used by legacy versions of Docker. |
+| kubernetes.io/dockerconfigjson | Like above, this type of secret stores the credentials for accessing a Docker registry, but uses the newer Docker configuration file format. The secret must contain a key called .dockerconfigjson. The value must be the contents of the ~/.docker/config.json file used by Docker. |
+| kubernetes.io/service-account-token | This type of secret stores a token that identifies a Kubernetes service account. You'll learn about service accounts and this token in chapter 23. |
+| kubernetes.io/ssh-auth | This type of secret stores the private key used for SSH authentication. The private key must be stored under the key ssh-privatekey in the secret. |
+| kubernetes.io/tls | This type of secrets stores a TLS certificate and the associated private key. They must be stored in the secret under the key tls.crt and tls.key, respectively. |
 
 #### Understanding how Kubernetes stores secrets and config maps
 In addition to the small differences in the names of the fields supported by config maps or secrets, Kubernetes treats them differently. When it comes to secrets, you need to remember that they are handled in specific ways in all Kubernetes components to ensure their security. For example, Kubernetes ensures that the data in a secret is distributed only to the node that runs the pod that needs the secret. Also, secrets on the worker nodes themselves are always stored in memory and never written to physical storage. This makes it less likely that sensitive data will leak out.
