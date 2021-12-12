@@ -61,5 +61,7 @@
     * [9.4 Passing pod metadata to the application via the Downward API](docs/Passing_pod_metadata_to_the_application_via_the_Downward_API.md)
     * [9.5 Using projected volumes to combine volumes into one](docs/Using_projected_volumes_to_combine_volumes_into_one.md)
     * [9.6 Summary](docs/Summary_9.md)
+* [10. Organizing objects using Namespaces, labels, and selectors](docs/Organizing_objects_using_Namespaces_labels.md)
+    * [10.1 Organizing objects into Namespaces](docs/Organizing_objects_into_Namespaces.md)
 
 
