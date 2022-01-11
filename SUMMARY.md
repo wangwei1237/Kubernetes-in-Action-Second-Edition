@@ -63,5 +63,7 @@
     * [9.6 Summary](docs/Summary_9.md)
 * [10. Organizing objects using Namespaces, labels, and selectors](docs/Organizing_objects_using_Namespaces_labels.md)
     * [10.1 Organizing objects into Namespaces](docs/Organizing_objects_into_Namespaces.md)
-
-
+    * [10.2 Organizing pods with labels](docs/Organizing_pods_with_labels.md)
+    * [10.3 Filtering objects with label selectors.md](docs/Filtering_Objects_With_Label_Selectors.md)
+    * [10.4 Annotating objects](docs/Annotating_objects.md)
+    * [10.5 Summary](docs/Summary_10.md)
