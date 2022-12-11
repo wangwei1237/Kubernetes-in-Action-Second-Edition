@@ -16,10 +16,10 @@ Figure 11.16 Pods that fail the readiness probe are removed from the service
 
 The notion of being ready is specific to each application. The application developer decides what readiness means in the context of their application. To do this, they expose an endpoint through which Kubernetes asks the application whether it’s ready or not. Depending on the type of endpoint, the correct readiness probe type must be used.
 
-#### Understanding readiness probe types(**need update**)
-Ba jbrw lsiesvne seropb, Uersnebetu sropupst hteer eypst kl esadiresn oebprs:
-* Tn exec eopbr sueextce s epssroc nj rdk incratone. Apv rxkj axeg oagh kr iemetntar vgr psesocr iemednsrte ehhwtre krg itanrenoc cj yaedr tk enr.
-* Xn httpGet pober sesnd c GET seequrt re oru conrnaite xsj HRXV et HCCLS. Rpv oesrsepn eskq eseretndmi pkr ontaecrin’z nasrdisee uatsts.
+#### Understanding readiness probe types
+As with liveness probes, Kubernetes supports three types of readiness probes:
+* An exec probe executes a process in the container. The exit code used to terminate the process determines whether the container is ready or not.
+* An httpGet probe sends a GET request to the container via HTTP or HTTPS. The response code determines the container’s readiness status.
 * A tcpSocket probe opens a TCP connection to a specified port on the container. If the connection is established, the container is considered ready.
 
 #### Configuring how often the probe is executed
