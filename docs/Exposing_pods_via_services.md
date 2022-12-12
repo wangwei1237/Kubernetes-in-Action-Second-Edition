@@ -152,6 +152,7 @@ Before continuing, run `kubectl edit svc quiz` and change the port from `8080` t
 The following table lists the basic fields you can set in the Service object.
 
 Table 11.1 Fields in the Service object’s spec for configuring the service’s basic properties
+
 | Field | Field type | Description |
 | --- | --- | --- |
 | type | string | Specifies the type of this Service object. Allowed values are `ClusterIP`, `NodePort`, `LoadBalancer`, and `ExternalName`. The default value is `ClusterIP`. The differences between these types are explained in the following sections of this chapter. |
