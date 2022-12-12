@@ -152,12 +152,12 @@ Before continuing, run `kubectl edit svc quiz` and change the port from `8080` t
 The following table lists the basic fields you can set in the Service object.
 
 Table 11.1 Fields in the Service object’s spec for configuring the service’s basic properties
-|Field|Field type|Description|
-|---|---|---|
-|type|string|Specifies the type of this Service object. Allowed values are `ClusterIP`, `NodePort`, `LoadBalancer`, and `ExternalName`. The default value is `ClusterIP`. The differences between these types are explained in the following sections of this chapter.|
-|clusterIP|string|The internal IP address within the cluster where the service is available. Normally, you leave this field blank and let Kubernetes assign the IP. If you set it to `None`, the service is a headless service. These are explained in section 11.4.|
-|selector|map[string]string|Specifies the label keys and values that the pod must have in order for this service to forward traffic to it. If you you don’t set this field, you are responsible for managing the service endpoints. This is explained in section 11.3.|
-|ports|[]Object|List of ports exposed by this service. Each entry can specify the `name`, `protocol`, `appProtocol`, `port`, `nodePort`, and `targetPort`.|
+| Field | Field type | Description |
+| --- | --- | --- |
+| type | string | Specifies the type of this Service object. Allowed values are `ClusterIP`, `NodePort`, `LoadBalancer`, and `ExternalName`. The default value is `ClusterIP`. The differences between these types are explained in the following sections of this chapter. |
+| clusterIP | string | The internal IP address within the cluster where the service is available. Normally, you leave this field blank and let Kubernetes assign the IP. If you set it to `None`, the service is a headless service. These are explained in section 11.4. |
+| selector | map[string]string | Specifies the label keys and values that the pod must have in order for this service to forward traffic to it. If you you don’t set this field, you are responsible for managing the service endpoints. This is explained in section 11.3. |
+| ports | []Object | List of ports exposed by this service. Each entry can specify the `name`, `protocol`, `appProtocol`, `port`, `nodePort`, and `targetPort`. |
 
 Other fields are explained throughout the remainder of this chapter.
 

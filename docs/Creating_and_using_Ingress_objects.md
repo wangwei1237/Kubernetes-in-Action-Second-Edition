@@ -234,11 +234,11 @@ If you want to access these services with your web browser, add `api.example.com
 Did you notice the difference between the `pathType` fields in the two entries in the previous listing? The `pathType` field specifies how the path in the request is matched with the paths in the ingress rule. The three supported values are summarized in the following table.
 
 Table 12.1 Supported values in the pathType field
-|PathType|Description|
-|---|---|
-|Exact|The requested URL path must exactly match the path specified in the ingress rule.|
-|Prefix|The requested URL path must begin with the path specified in the ingress rule, element by element.|
-|ImplementationSpecific|Path matching depends on the implementation of the ingress controller.|
+| PathType | Description |
+| --- | --- |
+| Exact | The requested URL path must exactly match the path specified in the ingress rule. |
+| Prefix | The requested URL path must begin with the path specified in the ingress rule, element by element. |
+| ImplementationSpecific | Path matching depends on the implementation of the ingress controller. |
 
 If multiple paths are specified in the ingress rule and the path in the request matches more than one path in the rule, priority is given to paths with the `Exact` path type.
 
@@ -247,13 +247,12 @@ The following table shows examples of how matching works when `pathType` is set 
 
 Table 12.2 Request paths matched when pathType is Exact
 
-|Path in rule|Matches request path|Doesn’t match|
-|---|---|---|
-|/|/|/foo <br/>/bar|
-|/foo|/foo|/foo/ <br/> /bar|
-|/foo/
-|/foo/|/foo <br /> /foo/bar <br /> /bar|
-|/FOO|/FOO|/foo|
+| Path in rule|Matches request path | Doesn’t match |
+| --- | --- | --- |
+| / | / | /foo <br/>/bar |
+| /foo | /foo | /foo/ <br/> /bar |
+| /foo/ | /foo/ | /foo <br /> /foo/bar <br /> /bar |
+| /FOO | /FOO | /foo |
 
 As you can see from the examples in the table, the matching works as you’d expect. It’s case sensitive, and the path in the request must exactly match the `path` specified in the ingress rule.
 
@@ -262,11 +261,11 @@ When `pathType` is set to `Prefix`, things aren’t as you might expect. Conside
 
 Table 12.3 Request paths matched when pathType is Prefix
 
-|Path in rule|Matches request paths|Doesn’t match|
-|---|---|---|
-|/|All paths; for example: <br />/ <br />/foo <br />/foo/ <br />||
-|/foo <br /> or <br /> /foo/<br />|/foo <br /> /foo/ <br /> /foo/bar |/foobar <br />/bar|
-|/FOO|/FOO|/foo|
+| Path in rule | Matches request paths | Doesn’t match |
+| --- | --- | --- |
+| / | All paths; for example: <br />/ <br />/foo <br />/foo/ <br /> | |
+| /foo <br /> or <br /> /foo/<br /> | /foo <br /> /foo/ <br /> /foo/bar | /foobar <br />/bar |
+| /FOO | /FOO | /foo |
 
 The request path isn’t treated as a string and checked to see if it begins with the specified prefix. Instead, both the path in the rule and the request path are split by `/` and then each element of the request path is compared to the corresponding element of the prefix. Take the path `/foo`, for example. It matches the request path `/foo/bar`, but not `/foobar`. It also doesn’t match the request path `/fooxyz/bar`.
 
@@ -334,10 +333,10 @@ The `host` field in the ingress rules supports the use of wildcards. This allows
 
 Table 12.4 Examples of using wildcards in the ingress rule’s host field
 
-|Host|Matches request hosts|Doesn’t match|
-|---|---|---|
-|kiada.example.com|kiada.example.com|example.com <br /> api.example.com <br /> foo.kiada.example.com|
-|*.example.com|kiada.example.com <br /> api.example.com <br /> foo.example.com|example.com <br />foo.kiada.example.com|
+| Host | Matches request hosts | Doesn’t match |
+| --- | --- | --- |
+| kiada.example.com | kiada.example.com | example.com <br /> api.example.com <br /> foo.kiada.example.com |
+| *.example.com | kiada.example.com <br /> api.example.com <br /> foo.example.com | example.com <br />foo.kiada.example.com |
 
 Look at the example with the wildcard. As you can see, `*.example.com` matches `kiada.example.com`, but it doesn’t match `foo.kiada.example.com` or `example.com`. This is because a wildcard only covers a single element of the DNS name.
 

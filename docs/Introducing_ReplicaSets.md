@@ -32,11 +32,11 @@ A ReplicaSet is a relatively simple object. The following table explains the thr
 
 
 Table 13.1 The main fields in the ReplicaSet specification
-|Field name|Description|
-|---|---|
-|replicas|The desired number of replicas. When you create the ReplicaSet object, Kubernetes creates this many Pods from the Pod template. It keeps this number of Pods until you delete the ReplicaSet.|
-|selector|The label selector contains either a map of labels in the matchLabels subfield or a list of label selector requirements in the matchExpressions subfield. Pods that match the label selector are considered part of this ReplicaSet.|
-|template|The Pod template for the ReplicaSet’s Pods. When a new Pod needs to be created, the object is created using this template.|
+| Field name | Description |
+| --- | --- |
+| replicas | The desired number of replicas. When you create the ReplicaSet object, Kubernetes creates this many Pods from the Pod template. It keeps this number of Pods until you delete the ReplicaSet. |
+| selector | The label selector contains either a map of labels in the matchLabels subfield or a list of label selector requirements in the matchExpressions subfield. Pods that match the label selector are considered part of this ReplicaSet. |
+| template | The Pod template for the ReplicaSet’s Pods. When a new Pod needs to be created, the object is created using this template. |
 
 The `selector` and `template` fields are required, but you can omit the `replicas` field. If you do, a single replica is created.
 

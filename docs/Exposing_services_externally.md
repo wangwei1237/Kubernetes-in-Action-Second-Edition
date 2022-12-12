@@ -191,12 +191,12 @@ Adding support for LoadBalancer services is optional. You can always use the nod
 LoadBalancer services are easy to create. You just set the type to LoadBalancer. However, if you need more control over the load balancer, you can configure it with the additional fields in the Service object’s spec explained in the following table.
 
 Table 11.2 Fields in the service spec that you can use to configure LoadBalancer services
-|Field|Field type|Description|
-|---|---|---|
-|loadBalancerClass|string|If the cluster supports multiple classes of load balancers, you can specify which one to use for this service. The possible values depend on the load balancer controllers installed in the cluster.|
-|loadBalancerIP|string|If supported by the cloud provider, this field can be used to specify the desired IP for the load balancer.|
-|loadBalancerSourceRanges|[]string|Restricts the client IPs that are allowed to access the service through the load balancer. Not supported by all load balancer controllers.|
-|allocateLoadBalancerNodePorts|boolean|Specifies whether to allocate node ports for this `LoadBalancer`-type service. Some load balancer implementations can forward traffic to pods without relying on node ports.|
+| Field | Field type | Description |
+| --- | --- | --- |
+| loadBalancerClass | string | If the cluster supports multiple classes of load balancers, you can specify which one to use for this service. The possible values depend on the load balancer controllers installed in the cluster. |
+| loadBalancerIP | string | If supported by the cloud provider, this field can be used to specify the desired IP for the load balancer. |
+| loadBalancerSourceRanges | []string | Restricts the client IPs that are allowed to access the service through the load balancer. Not supported by all load balancer controllers. |
+| allocateLoadBalancerNodePorts | boolean | Specifies whether to allocate node ports for this `LoadBalancer`-type service. Some load balancer implementations can forward traffic to pods without relying on node ports. |
 
 ## 11.2.3 Configuring the external traffic policy for a service
 You’ve already learned that when an external client connects to a service through the node port, either directly or through the load balancer, the connection may be forwarded to a pod that’s on a different node than the one that received the connection. In this case, an additional network hop must be made to reach the pod. This results in increased latency.
