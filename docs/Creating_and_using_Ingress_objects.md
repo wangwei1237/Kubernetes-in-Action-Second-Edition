@@ -234,6 +234,7 @@ If you want to access these services with your web browser, add `api.example.com
 Did you notice the difference between the `pathType` fields in the two entries in the previous listing? The `pathType` field specifies how the path in the request is matched with the paths in the ingress rule. The three supported values are summarized in the following table.
 
 Table 12.1 Supported values in the pathType field
+
 | PathType | Description |
 | --- | --- |
 | Exact | The requested URL path must exactly match the path specified in the ingress rule. |

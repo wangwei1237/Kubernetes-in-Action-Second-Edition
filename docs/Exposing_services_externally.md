@@ -191,6 +191,7 @@ Adding support for LoadBalancer services is optional. You can always use the nod
 LoadBalancer services are easy to create. You just set the type to LoadBalancer. However, if you need more control over the load balancer, you can configure it with the additional fields in the Service object’s spec explained in the following table.
 
 Table 11.2 Fields in the service spec that you can use to configure LoadBalancer services
+
 | Field | Field type | Description |
 | --- | --- | --- |
 | loadBalancerClass | string | If the cluster supports multiple classes of load balancers, you can specify which one to use for this service. The possible values depend on the load balancer controllers installed in the cluster. |

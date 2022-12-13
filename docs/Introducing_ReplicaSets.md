@@ -32,6 +32,7 @@ A ReplicaSet is a relatively simple object. The following table explains the thr
 
 
 Table 13.1 The main fields in the ReplicaSet specification
+
 | Field name | Description |
 | --- | --- |
 | replicas | The desired number of replicas. When you create the ReplicaSet object, Kubernetes creates this many Pods from the Pod template. It keeps this number of Pods until you delete the ReplicaSet. |
