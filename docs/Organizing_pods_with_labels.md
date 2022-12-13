@@ -245,7 +245,6 @@ The label prefixes `kubernetes.io/` and `k8s.io/` are reserved for Kubernetes co
 When choosing a key for your labels, some syntax restrictions apply to both the prefix and the name part. The following table provides examples of valid and invalid label keys.
 
 Table 10.1 Examples of valid and invalid label keys
-Valid label keys
 
 |  Valid label keys   | Invalid label keys  |
 |  :----  | :----  |
@@ -275,6 +274,7 @@ The prefix must be followed by the label name, which:
 Remember that labels are used to add identifying information to your objects. As with label keys, there are certain rules you must follow for label values. For example, label values can’t contain spaces or special characters. The following table provides examples of valid and invalid label values.
 
 Table 10.2 Examples of valid and invalid label values
+
 | Valid label values | Invalid label values |
 |  :----  | :----  |
 | foo | _foo |
