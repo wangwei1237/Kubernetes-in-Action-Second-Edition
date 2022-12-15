@@ -94,3 +94,7 @@
     * [14.2 Updating a Deployment](docs/Updating_a_Deployment.md)
     * [14.3 Implementing other deployment strategies](docs/Implementing_other_deployment_strategies.md)
     * [14.4 Summary](docs/Summary_14.md)
+* [16 Deploying node agents and daemons with DaemonSets](docs/Deploying_node_agents_and_daemons_with_DaemonSets.md)
+    * [16.1 Introducing DaemonSets](docs/Introducing_DaemonSets.md)
+    * [16.4 Summary](docs/Summary_16.md)
+    
