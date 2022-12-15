@@ -96,5 +96,7 @@
     * [14.4 Summary](docs/Summary_14.md)
 * [16 Deploying node agents and daemons with DaemonSets](docs/Deploying_node_agents_and_daemons_with_DaemonSets.md)
     * [16.1 Introducing DaemonSets](docs/Introducing_DaemonSets.md)
+    * [16.2 Special features in Pods running node agents and daemons](docs/Special_features_in_Pods_running_node_agents_and_daemons.md)
+    * [16.3  Communicating with the local daemon Pod](docs/Communicating_with_the_local_daemon_Pod.md)
     * [16.4 Summary](docs/Summary_16.md)
     

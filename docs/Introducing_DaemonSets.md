@@ -152,6 +152,7 @@ status:
 As you can see, the `status` of a DaemonSet consists of several integer fields. The following table explains what the numbers in those fields mean.
 
 Table 16.1 DaemonSet status fields
+
 | Value | Description | 
 | --- | --- |
 | currentNumberScheduled | The number of Nodes that run at least one Pod associated with this DaemonSet. |
@@ -159,7 +160,7 @@ Table 16.1 DaemonSet status fields
 | numberAvailable | The number of Nodes that run at least one daemon Pod that’s available. |
 | numberMisscheduled | The number of Nodes that are running a daemon Pod but shouldn’t be running it. |
 | numberReady | The number of Nodes that have at least one daemon Pod running and ready |
-| updatedNumberScheduled| The number of Nodes whose daemon Pod is current with respect to the Pod template in the DaemonSet.| 
+| updatedNumberScheduled | The number of Nodes whose daemon Pod is current with respect to the Pod template in the DaemonSet.| 
 
 The `status` also contains the `observedGeneration` field, which has nothing to do with DaemonSet Pods. You can find this field in virtually all other objects that have a `spec` and a `status`. You’ll learn about this field in chapter 20, so ignore it for now.
 
@@ -429,6 +430,7 @@ You can configure the update strategy to use in the `spec.updateStrategy` field 
 
 
 Table 16.2 The supported DaemonSet update strategies
+
 | Value | Description |
 | --- | --- |
 | RollingUpdate | In this update strategy, Pods are replaced one by one. When a Pod is deleted and recreated, the controller waits until the new Pod is ready. Then it waits an additional amount of time, specified in the spec.minReadySeconds field of the DaemonSet, before updating the Pods on the other Nodes. This is the default strategy. |
@@ -560,7 +562,7 @@ To update the Pods, you must delete them manually. You can delete as many Pod as
 $ kubectl delete po demo-k2d6k --wait=false
 pod "demo-k2d6k" deleted
 ```
-You may recall that, by default, the `kubectl delete` command doesn't exit until the deletion of the object is complete. If you use the `--wait=false` option, the command marks the object for deletion and exits without waiting for the Pod to actually be deleted. This way, you can keep track of what
+You may recall that, by default, the `kubectl delete` command doesn't exit until the deletion of the object is complete. If you use the `--wait=false` option, the command marks the object for deletion and exits without waiting for the Pod to actually be deleted. This way, you can keep track of what happens behind the scenes by listing Pods several times as follows:
 
 ```shell
 $ kubectl get pods -l app=demo -L ver
