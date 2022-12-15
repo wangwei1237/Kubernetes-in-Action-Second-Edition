@@ -105,7 +105,7 @@ spec:
       hostNetwork: true
 ```
 
-In the Pod’s `spec`, the `hostNetwork` field is set to `true`. This causes the Pod to use the host Node’s network environment (devices, stacks, and ports) instead of having its own, just like all other processes that run directly on the node and not in a container. This means that the Pod won’t even get its own IP address but will use the Node’s address(es). If you list the Pods in the `kube-system` Namespace with the -o wide option as follows, you’ll see that the IPs of the `kube-proxy` Pods match the IPs of their respective host Nodes.
+In the Pod’s `spec`, the `hostNetwork` field is set to `true`. This causes the Pod to use the host Node’s network environment (devices, stacks, and ports) instead of having its own, just like all other processes that run directly on the node and not in a container. This means that the Pod won’t even get its own IP address but will use the Node’s address(es). If you list the Pods in the `kube-system` Namespace with the `-o wide` option as follows, you’ll see that the IPs of the `kube-proxy` Pods match the IPs of their respective host Nodes.
 
 ```shell
 $ kubectl -n kube-system get po -o wide
@@ -123,7 +123,7 @@ NOTE
 Another option is for the Pod to use its own network, but forward one or more host ports to the container by using the `hostPort` field in the container’s port list. You’ll learn how to do this later.
 {% endhint %}
 
-Containers in a Pod configured with `hostNetwork: true· continue to use the other namespace types, so they remain isolated from the node in other respects. For example, they use their own IPC and PID namespaces, so they can’t see the other processes or communicate with them via inter-process communication. If you want a daemon Pod to use the node’s IPC and PID namespaces, you can configure this using the `hostIPC` and `hostPID` properties in the Pod’s `spec`.
+Containers in a Pod configured with `hostNetwork: true` continue to use the other namespace types, so they remain isolated from the node in other respects. For example, they use their own IPC and PID namespaces, so they can’t see the other processes or communicate with them via inter-process communication. If you want a daemon Pod to use the node’s IPC and PID namespaces, you can configure this using the `hostIPC` and `hostPID` properties in the Pod’s `spec`.
 
 ## 16.2.4  Marking daemon Pods as critical
 
@@ -163,7 +163,7 @@ Events:         <none>
 
 As you can see, each priority class has a value. The higher the value, the higher the priority. The preemption policy in each class determines whether or not Pods with lower priority should be evicted when a Pod with that class is scheduled to an overbooked Node.
 
-You specify which priority class a Pod belongs to by specifying the class name in the `priorityClassName` field of the Pod’s spec section. For example, the `kube-proxy` DaemonSet sets the priority class of its Pods to `system-node-critical`. You can see this as follows:
+You specify which priority class a Pod belongs to by specifying the class name in the `priorityClassName` field of the Pod’s `spec` section. For example, the `kube-proxy` DaemonSet sets the priority class of its Pods to `system-node-critical`. You can see this as follows:
 
 ```shell
 $ kubectl -n kube-system get ds kube-proxy -o yaml

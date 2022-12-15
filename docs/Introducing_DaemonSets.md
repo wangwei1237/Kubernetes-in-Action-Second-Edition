@@ -80,7 +80,7 @@ demo   2         2         2       2            2           <none>          7s
 {% hint style='info' %}
 NOTE
 
-The shorthand for DaemonSet is ds.
+The shorthand for DaemonSet is `ds`.
 {% endhint %}
 
 The command’s output shows that two Pods were created by this DaemonSet. In your case, the number may be different because it depends on the number and type of Nodes in your cluster, as I’ll explain later in this section.
@@ -235,7 +235,7 @@ As you can see, these lines are part of the Pod template and not direct properti
 
 #### Inspecting a daemon Pod
 
-Now let’s turn back to the demo DaemonSet to learn more about the Pods that it creates. Take one of these Pods and display its manifest as follows:
+Now let’s turn back to the `demo` DaemonSet to learn more about the Pods that it creates. Take one of these Pods and display its manifest as follows:
 
 ```shell
 $ kubectl get po demo-w8tgm -o yaml
@@ -291,7 +291,7 @@ Figure 16.3 A node selector is used to deploy DaemonSet Pods on a subset of clus
 ![](../images/16.3.png)
 
 
-The figure shows a DaemonSet that deploys Pods only on Nodes that contain a CUDA-enabled GPU and are labelled with the label gpu: cuda. The DaemonSet controller deploys the Pods only on Nodes B and C, but ignores node A, because its label doesn’t match the node selector specified in the DaemonSet.
+The figure shows a DaemonSet that deploys Pods only on Nodes that contain a CUDA-enabled GPU and are labelled with the label `gpu: cuda`. The DaemonSet controller deploys the Pods only on Nodes B and C, but ignores node A, because its label doesn’t match the node selector specified in the DaemonSet.
 
 {% hint style='info' %}
 NOTE
@@ -301,7 +301,7 @@ CUDA or Compute Unified Device Architecture is a parallel computing platform and
 
 #### Specifying a node selector in the DaemonSet
 
-You specify the node selector in the spec.nodeSelector field in the Pod template. The following listing shows the same demo DaemonSet you created earlier, but with a nodeSelector configured so that the DaemonSet only deploys Pods to Nodes with the label gpu: cuda. You can find this manifest in the file ds.demo.nodeSelector.yaml.
+You specify the node selector in the `spec.nodeSelector` field in the Pod template. The following listing shows the same `demo` DaemonSet you created earlier, but with a `nodeSelector` configured so that the DaemonSet only deploys Pods to Nodes with the label `gpu: cuda`. You can find this manifest in the file `ds.demo.nodeSelector.yaml`.
 
 Listing 16.2 A DaemonSet with a node selector
 
@@ -375,7 +375,7 @@ demo-jbhqg   1/1     Terminating   0          71s
 
 #### Using standard Node labels in DaemonSets
 
-Kubernetes automatically adds some standard labels to each Node. Use the kubectl describe command to see them. For example, the labels of my kind-worker2 node are as follows:
+Kubernetes automatically adds some standard labels to each Node. Use the `kubectl describe` command to see them. For example, the labels of my `kind-worker2` node are as follows:
 
 ```shell
 $ kubectl describe node kind-worker2
@@ -413,7 +413,7 @@ You don’t need multiple DaemonSets if you just want each node to run the corre
 
 #### Updating the node selector
 
-Unlike the Pod label selector, the node selector is mutable. You can change it whenever you want to change the set of Nodes that the DaemonSet should target. One way to change the selector is to use the 	`kubectl patch` command. In chapter 14, you learned how to patch an object by specifying the part of the manifest that you want to update. However, you can also update an object by specifying a list of patch operations using the JSON patch format. You can learn more about this format at jsonpatch.com. Here I show you an example of how to use JSON patch to remove the `nodeSelector` field from the object manifest of the `demo` DaemonSet:
+Unlike the Pod label selector, the node selector is mutable. You can change it whenever you want to change the set of Nodes that the DaemonSet should target. One way to change the selector is to use the 	`kubectl patch` command. In chapter 14, you learned how to patch an object by specifying the part of the manifest that you want to update. However, you can also update an object by specifying a list of patch operations using the JSON patch format. You can learn more about this format at [jsonpatch.com](https://jsonpatch.com/). Here I show you an example of how to use JSON patch to remove the `nodeSelector` field from the object manifest of the `demo` DaemonSet:
 
 ```shell
 $ kubectl patch ds demo --type='json' -p='[{ "op": "remove", "path": "/spec/template/spec/nodeSelector"}]'daemonset.apps/demo patched
@@ -467,7 +467,7 @@ spec:
     spec:
       ...
 ``` 
-In the listing, the type of updateStrategy is RollingUpdate, with maxSurge set to 0 and maxUnavailable set to 1.
+In the listing, the `type` of `updateStrategy` is `RollingUpdate`, with `maxSurge` set to `0` and `maxUnavailable` set to `1`.
 
 {% hint style='info' %}
 NOTE
@@ -506,7 +506,7 @@ If you want the Pods to update at a higher rate, increase the `maxUnavailable` p
 {% hint style='info' %}
 TIP
 
-To implement the Recreate update strategy in a DaemonSet, set the maxSurge parameter to 0 and maxUnavailable to 10000 or more, so that this value is always higher than the number of Nodes in your cluster.
+To implement the `Recreate` update strategy in a DaemonSet, set the `maxSurge` parameter to 0 and `maxUnavailable` to `10000` or more, so that this value is always higher than the number of Nodes in your cluster.
 {% endhint %}
 
 An important caveat to rolling DaemonSet updates is that if the readiness probe of an existing daemon Pod fails, the DaemonSet controller immediately deletes the Pod and replaces it with a Pod with the updated template. In this case, the `maxSurge` and `maxUnavailable` parameters are ignored.
@@ -596,14 +596,14 @@ For example, the readiness probe defined in the DaemonSet probably doesn’t che
 
 ## 16.1.5  Deleting the DaemonSet
 
-To finish this introduction to DaemonSets, delete the demo DaemonSet as follows:
+To finish this introduction to DaemonSets, delete the `demo` DaemonSet as follows:
 
 ```shell
 $ kubectl delete ds demo
 daemonset.apps "demo" deleted
 ```
 
-As you’d expect, doing so will also delete all demo Pods. To confirm, list the Pods as follows:
+As you’d expect, doing so will also delete all `demo` Pods. To confirm, list the Pods as follows:
 
 ```shell 
 $ kubectl get pods -l app=demo
