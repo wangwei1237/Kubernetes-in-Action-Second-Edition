@@ -450,6 +450,10 @@ As you can see, the Pods are created in ascending order, one at a time. You can 
 
 #### Scaling a StatefulSet with the OrderedReady policy
 
+When you scale the StatefulSet configured with the OrderedReady Pod management policy, the Pods are created/deleted one by one. Scale the `quiz` StatefulSet to a single replica and watch as the Pods are removed. First, the Pod with the highest ordinal, `quiz-2`, is marked for deletion, while Pod `quiz-1` remains untouched. When the termination of Pod `quiz-2` is complete, Pod `quiz-1` is deleted. The `minReadySeconds` setting isn’t used during scale-down, so there’s no additional delay.
+
+Just as with concurrent startup, some stateful workloads don’t like it when you remove multiple replicas at once. With the `OrderedReady` policy, you let each replica finish its shutdown procedure before the shutdown of the next replica is triggered.
+
 #### Blocked scale-downs
 
 Another feature of the `OrderedReady` Pod management policy is that the controller blocks the scale-down operation if not all replicas are ready. To see this for yourself, create a new StatefulSet by applying the manifest file `sts.demo-ordered.yaml`. This StatefulSet deploys three replicas using the `OrderedReady` policy. After the Pods are created, fail the readiness probe in the Pod `demo-ordered-0` by running the following command:
