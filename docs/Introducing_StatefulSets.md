@@ -65,7 +65,7 @@ NOTE
 You don’t need the `quiz` Deployment and the `quiz-data` PersistentVolumeClaim anymore, so please delete them as follows: `kubectl delete deploy/quiz pvc/quiz-data.`
 {% endhint %}
 
-15.1.2 Comparing StatefulSets with Deployments
+### 15.1.2 Comparing StatefulSets with Deployments
 A StatefulSet is similar to a Deployment, but is specifically tailored to stateful workloads. However, there are significant differences in the behavior of these two objects. This difference is best explained with the Pets vs. Cattle analogy that you may have heard of. If not, let me explain.
 
 {% hint style='info' %}
