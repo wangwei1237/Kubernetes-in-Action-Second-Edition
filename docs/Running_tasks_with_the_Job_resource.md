@@ -807,11 +807,11 @@ aggregate-responses-2021-1-r4vfq   1/1     Running   0          24s
 aggregate-responses-2021-2-snz4m   1/1     Running   0          24s
 ```
 
-Did you notice that the Pod names contain the job completion index? The Job name is *aggregate-responses-2021*, but the Pod names are in the form *aggregate-responses-2021-<index>-<random string>*.
-  
+Did you notice that the Pod names contain the job completion index? The Job name is *aggregate-responses-2021*, but the Pod names are in the form *aggregate-responses-2021-\<index\>-\<random string\>*.
+
 > NOTE
 > 
-> The completion index also appears in the Pod hostname. The hostname is of the form *<job-name>-<index>*. This facilitates communication between Pods of an indexed Job, as you’ll see in a later section.
+> The completion index also appears in the Pod hostname. The hostname is of the form *\<job-name\>-\<index\>*. This facilitates communication between Pods of an indexed Job, as you’ll see in a later section.
 
 Now check the Job status with the following command:
 
@@ -840,9 +840,330 @@ Figure 17.9 An init container providing the input file to the main container bas
 
 As you can see, even though an indexed Job provides only a simple integer to each Pod, there is a way to use that integer to prepare much more complex input data for the workload. All you need is an init container that transforms the integer into this input data.
 
+## 17.1.5 Running Jobs with a work queue
+
+The Jobs in the previous section were assigned static work. However, often the work to be performed is assigned dynamically using a work queue. Instead of specifying the input data in the Job itself, the Pod retrieves that data from the queue. In this section, you’ll learn two methods for processing a work queue in a Job.
+
+The previous paragraph may have given the impression that Kubernetes itself provides some kind of queue-based processing, but that isn’t the case. When we talk about Jobs that use a queue, the queue and the component that retrieves the work items from that queue need to be implemented in your containers. Then you create a Job that runs those containers in one or more Pods. To learn how to do this, you’ll now implement another variant of the aggregate-responses Job. This one uses a queue as the source of the work to be executed.
+
+There are two ways to process a work queue: coarse or fine. The following figure illustrates the difference between these two methods.
+
+Figure 17.10 The difference between coarse and fine parallel processing
+
+![](../images/17.10.png)
+
+In coarse parallel processing, each Pod takes an item from the queue, processes it, and then terminates. Therefore, you end up with one Pod per work item. In contrast, in fine parallel processing, typically only a handful of Pods are created and each Pod processes multiple work items. They all work in parallel until the entire queue is processed. In both methods, you can run as many Pods in parallel as you want, if your cluster can accommodate them.
+
+**Creating the work queue**
+
+The Job you’ll create for this exercise will process the Quiz responses from 2022. Before you create this Job, you must first set up the work queue. To keep things simple, you implement the queue in the existing MongoDB database. To create the queue, you run the following command:
 
 
-![](../images/17.1.png)
 ```shell
-
+$ kubectl exec -it quiz-0 -c mongo -- mongosh kiada --eval '
+  db.monthsToProcess.insertMany([
+    {_id: "2022-01", year: 2022, month: 1},
+    {_id: "2022-02", year: 2022, month: 2},
+    {_id: "2022-03", year: 2022, month: 3},
+    {_id: "2022-04", year: 2022, month: 4},
+    {_id: "2022-05", year: 2022, month: 5},
+    {_id: "2022-06", year: 2022, month: 6},
+    {_id: "2022-07", year: 2022, month: 7},
+    {_id: "2022-08", year: 2022, month: 8},
+    {_id: "2022-09", year: 2022, month: 9},
+    {_id: "2022-10", year: 2022, month: 10},
+    {_id: "2022-11", year: 2022, month: 11},
+    {_id: "2022-12", year: 2022, month: 12}])'
 ```
+
+> NOTE
+> 
+> This command assumes that quiz-0 is the primary MongoDB replica. If the command fails with the error message “not primary”, try running the command in all three Pods, or you can ask MongoDB which of the three is the primary replica with the following command: kubectl exec quiz-0 -c mongo -– mongosh –-eval 'rs.hello().primary'.
+
+The command inserts 12 work items into the MongoDB collection named *monthsToProcess*. Each work item represents a particular month that needs to be processed.
+
+**Processing a work queue using coarse parallel processing**
+
+Let’s start with an example of coarse parallel processing, where each Pod processes only a single work item. You can find the Job manifest in the file *job.aggregate-responses-queue-coarse.yaml* and is shown in the following listing.
+
+Listing 17.10 Processing a work queue using coarse parallel processing
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: aggregate-responses-queue-coarse
+spec:
+  completions: 6
+  parallelism: 3
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: processor
+        image: mongo:5
+        command:
+        - mongosh
+        - mongodb+srv://quiz-pods.kiada.svc.cluster.local/kiada?tls=false
+        - --quiet
+        - --file
+        - /script.js
+        volumeMounts:
+        - name: script
+          subPath: script.js
+          mountPath: /script.js
+      volumes:
+      - name: script
+        configMap:
+          name: aggregate-responses-queue-coarse
+```
+
+The Job creates Pods that run a script in MongoDB that takes a single item from the queue and processes it. Note that *completions* is *6*, meaning that this Job only processes 6 of the 12 items you added to the queue. The reason for this is that I want to leave a few items for the fine parallel processing example that comes after this one.
+
+The *parallelism* setting for this Job is *3*, which means that three work items are processed in parallel by three different Pods.
+
+The script that each Pod executes is defined in the *aggregate-responses-queue-coarse* ConfigMap. The manifest for this ConfigMap is in the same file as the Job manifest. A rough outline of the script can be seen in the following listing.
+
+Listing 17.11 A MongoDB script processing a single work item
+```javascript
+print("Fetching one work item from queue...");
+ 
+var workItem = db.monthsToProcess.findOneAndDelete({});
+if (workItem == null) {
+    print("No work item found. Processing is complete.");
+    quit(0);
+}
+ 
+print("Found work item:");
+print("  Year:  " + workItem.year);
+print("  Month: " + workItem.month);
+ 
+var year = parseInt(workItem.year);
+var month = parseInt(workItem.month) + 1;
+// code that processes the item
+ 
+print("Done.");
+quit(0);
+```
+
+The script takes an item from the work queue. As you know, each item represents a single month. The script performs an aggregation query on the Quiz responses for that month that calculates the number of correct, incorrect, and total responses, and stores the result back in MongoDB.
+
+To run the Job, apply *job.aggregate-responses-queue-coarse.yaml* with kubectl apply and observe the status of the Job with kubectl get jobs. You can also check the Pods to make sure that three Pods are running in parallel, and that the total number of Pods is six after the Job is complete.
+
+If all goes well, your work queue should now only contain the 6 months that haven’t been processed by the Job. You can confirm this by running the following command:
+```shell
+$ kubectl exec quiz-0 -c mongo -- mongosh kiada --quiet --eval 'db.monthsToProcess.find()'
+[
+  { _id: '2022-07', year: 2022, month: 7 },
+  { _id: '2022-08', year: 2022, month: 8 },
+  { _id: '2022-09', year: 2022, month: 9 },
+  { _id: '2022-10', year: 2022, month: 10 },
+  { _id: '2022-11', year: 2022, month: 11 },
+  { _id: '2022-12', year: 2022, month: 12 }
+]
+```
+
+You can check the logs of the six Pods to see if they have processed the exact months for which the items were removed from the queue. You’ll process the remaining items with fine parallel processing. Before you continue, please delete the *aggregate-responses-queue-coarse* Job with *kubectl delete*. This also removes the six Pods.
+
+**Processing a work queue using fine parallel processing**
+
+In fine parallel processing, each Pod handles multiple work items. It takes an item from the queue, processes it, takes the next item, and repeats this process until there are no items left in the queue. As before, multiple Pods can work in parallel.
+
+The Job manifest is in the file *job.aggregate-responses-queue-fine.yaml*. The Pod template is virtually the same as in the previous example, but it doesn’t contain the completions field, as you can see in the following listing.
+
+Listing 17.12 Processing a work queue using the fine parallel processing approach
+
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: aggregate-responses-queue-fine
+spec:
+  parallelism: 3
+  template:
+    ...
+```
+
+A Job that uses fine parallel processing doesn’t set the *completions* field because a single successful completion indicates that all the items in the queue have been processed. This is because the Pod terminates with success when it has processed the last work item.
+
+You may wonder what happens if some Pods are still processing their items when another Pod reports success. Fortunately, the Job controller lets the other Pods finish their work. It doesn’t kill them.
+
+As before, the manifest file also contains a ConfigMap that contains the MongoDB script. Unlike the previous script, this script processes one work item after the other until the queue is empty, as shown in the following listing.
+
+Listing 17.13 A MongoDB script that processes the entire queue
+
+```javascript
+print("Processing quiz responses - queue - all work items");
+print("==================================================");
+print();
+print("Fetching work items from queue...");
+print();
+ 
+while (true) {
+    var workItem = db.monthsToProcess.findOneAndDelete({});
+    if (workItem == null) {
+        print("No work item found. Processing is complete.");
+        quit(0);
+    }
+    print("Found work item:");
+    print("  Year:  " + workItem.year);
+    print("  Month: " + workItem.month);
+    // process the item
+    ...
+ 
+    print("Done processing item.");
+    print("------------------");
+    print();
+}
+```
+
+To run this Job, apply the manifest file *job.aggregate-responses-queue-fine.yaml*. You should see three Pods associated with it. When they finish processing the items in the queue, their containers terminate, and the Pods show as Completed:
+
+```shell
+$ kubectl get pods -l job-name=aggregate-responses-queue-fine
+NAME                                   READY   STATUS      RESTARTS   AGE
+aggregate-responses-queue-fine-9slkl   0/1     Completed   0          4m21s
+aggregate-responses-queue-fine-hxqbw   0/1     Completed   0          4m21s
+aggregate-responses-queue-fine-szqks   0/1     Completed   0          4m21s
+```
+
+The status of the Job also indicates that all three Pods have completed:
+
+```shell
+$ kubectl get jobs
+NAME                             COMPLETIONS   DURATION   AGE
+aggregate-responses-queue-fine   3/1 of 3      3m19s      5m34s
+```
+
+The last thing you need to do is check if the work queue is actually empty. You can do that with the following command:
+
+```shell
+$ kubectl exec quiz-1 -c mongo -- mongosh kiada --quiet --eval 'db.monthsToProcess.countDocuments()'
+0
+```
+
+As you can see, the queue is zero, so the Job is completed.
+
+**Continuous processing of work queues**
+
+To conclude this section on Jobs with work queues, let’s see what happens when you add items to the queue after the Job is complete. Add a work item for January 2023 as follows:
+
+```shell
+$ kubectl exec -it quiz-0 -c mongo -- mongosh kiada --quiet --eval 'db.monthsToProcess.insertOne({_id: "2023-01", year: 2023, month: 1})'
+{ acknowledged: true, insertedId: '2023-01' }
+```
+
+Do you think the Job will create another Pod to handle this work item? The answer is obvious when you consider that Kubernetes doesn’t know anything about the queue, as I explained earlier. Only the containers running in the Pods know about the existence of the queue. So, of course, if you add a new item after the Job finishes, it won’t be processed unless you recreate the Job.
+
+Remember that Jobs are designed to run tasks to completion, not continuously. To implement a worker Pod that continuously monitors a queue, you should run the Pod with a Deployment instead. However, if you want to run the Job at regular intervals rather than continuously, you can also use a CronJob, as explained in the second part of this chapter.
+
+## 17.1.6 Communication between Job Pods
+
+Most Pods running in the context of a Job run independently, unaware of the other Pods running in the same context. However, some tasks require that these Pods communicate with each other.
+
+In most cases, each Pod needs to communicate with a specific Pod or with all its peers, not just with a random Pod in the group. Fortunately, it’s trivial to enable this kind of communication. You only have to do three things:
+
+* Set the completionMode of the Job to Indexed.
+* Create a headless Service.
+* Configure this Service as a subdomain in the Pod template.
+
+Let me explain this with an example.
+
+**Creating the headless Service manifest**
+
+Let’s first look at how the headless Service must be configured. Its manifest is shown in the following listing.
+
+Listing 17.14 Headless Service for communication between Job Pods
+
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-service
+spec:
+  clusterIP: none
+  selector:
+    job-name: comm-demo
+  ports:
+  - name: http
+    port: 80
+```
+
+As you learned in chapter 11, you must set *clusterIP* to none to make the Service headless. You also need to make sure that the label selector matches the Pods that the Job creates. The easiest way to do this is to use the *job-name* label in the selector. You learned at the beginning of this chapter that this label is automatically added to the Pods. The value of the label is set to the name of the Job object, so you need to make sure that the value you use in the selector matches the Job name.
+
+**Creating the Job manifest**
+
+Now let’s see how the Job manifest must be configured. Examine the following listing.
+
+Listing 17.15 A Job manifest enabling pod-to-pod communication
+
+
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: comm-demo
+spec:
+  completionMode: Indexed
+  completions: 2
+  parallelism: 2
+  template:
+    spec:
+      subdomain: demo-service
+      restartPolicy: Never
+      containers:
+      - name: comm-demo
+        image: busybox
+        command:
+        - sleep
+        - "600"
+```
+
+As mentioned earlier, the completion mode must be set to *Indexed*. This Job is configured to run two Pods in parallel so you can experiment with them. In order for the Pods to find each other via DNS, you need to set their *subdomain* to the name of the headless Service.
+
+You can find both the Job and the Service manifest in the *job.comm-demo.yaml* file. Create the two objects by applying the file and then list the Pods as follows:
+
+```shell
+$ kubectl get pods -l job-name=comm-demo
+NAME                READY   STATUS    RESTARTS   AGE
+comm-demo-0-mrvlp   1/1     Running   0          34s
+comm-demo-1-kvpb4   1/1     Running   0          34s
+```
+
+Note the names of the two Pods. You need them to execute commands in their containers.
+
+**Connecting to Pods from other Pods**
+
+Check the hostname of the first Pod with the following command. Use the name of your Pod.
+
+```shell
+$ kubectl exec comm-demo-0-mrvlp -- hostname -f
+comm-demo-0.demo-service.kiada.svc.cluster.local
+```
+
+The second Pod can communicate with the first Pod at this address. To confirm this, try pinging the first Pod from the second Pod using the following command (this time, pass the name of your second Pod to the *kubectl exec* command):
+
+```shell
+$ kubectl exec comm-demo-1-kvpb4 -- ping comm-demo-0.demo-service.kiada.svc.cluster.local
+PING comm-demo-0.demo-service.kiada.svc.cluster.local (10.244.2.71): 56 data bytes
+64 bytes from 10.244.2.71: seq=0 ttl=63 time=0.060 ms
+64 bytes from 10.244.2.71: seq=1 ttl=63 time=0.062 ms
+...
+```
+
+As you can see, the second Pod can communicate with the first Pod without knowing its exact name, which is known to be random. A pod running in the context of a Job can determine the names of its peers according to the following pattern:
+
+![](../images/17.10.1.png)
+
+But you can simplify the address even further. As you may recall, when resolving DNS records for objects in the same Namespace, you don’t have to use the fully qualified domain name. You can omit the Namespace and the cluster domain suffix. So the second Pod can connect to the first Pod using the address *comm-demo-0.demo-service*, as shown in the following example:
+```shell
+$ kubectl exec comm-demo-1-kvpb4 -- ping comm-demo-0.demo-service
+PING comm-demo-0.demo-service (10.244.2.71): 56 data bytes
+64 bytes from 10.244.2.71: seq=0 ttl=63 time=0.040 ms
+64 bytes from 10.244.2.71: seq=1 ttl=63 time=0.067 ms
+...
+```
+
+As long as the Pods know how many Pods belong to the same Job (in other words, what the value of the *completions* field is), they can easily find all their peers via DNS. They don’t need to ask the Kubernetes API server for their names or IP addresses.
+
+This concludes the first part of this chapter. Please delete any remaining Jobs before continuing.
