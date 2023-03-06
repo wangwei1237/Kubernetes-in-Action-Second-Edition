@@ -105,4 +105,7 @@
     * [16.2 Special features in Pods running node agents and daemons](docs/Special_features_in_Pods_running_node_agents_and_daemons.md)
     * [16.3  Communicating with the local daemon Pod](docs/Communicating_with_the_local_daemon_Pod.md)
     * [16.4 Summary](docs/Summary_16.md)
-    
+* [17 Running finite workloads with Jobs and CronJobs](docs/Running_finite_workloads_with_Jobs_and_CronJobss.md)
+    * [17.1 Running tasks with the Job resource](docs/Running_tasks_with_the_Job_resource.md)
+    * [17.2 Scheduling Jobs with CronJobs](docs/Scheduling_Jobs_with_CronJobs.md)
+    * [17.3 Summary](docs/Summary_17.md)  
