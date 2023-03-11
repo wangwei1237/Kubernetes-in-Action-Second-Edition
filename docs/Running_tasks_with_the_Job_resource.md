@@ -338,9 +338,10 @@ As shown in the figure, the Job controller first creates two Pods and waits unti
 The following table explains the behavior for different examples of *completions* and *parallelism*.
 
 Table 17.1 Completions and parallelism combinations
+
 | Completions | Parallelism | Job behavior | 
 | --- | --- | --- |
-| Not set | Not set | A single Pod is created. Same as when completions and parallelism is 1.
+| Not set | Not set | A single Pod is created. Same as when completions and parallelism is 1. | 
 | 1 | 1 | A single Pod is created. If the Pod completes successfully, the Job is complete. If the Pod is deleted before completing, it’s replaced by a new Pod. |
 | 2 | 5 | Only three Pods are created. The same as if parallelism was 2. |
 | 5 | 2 | Two Pods are created initially. When one of them completes, the third Pod is created. There are again two Pods running. When one of the two completes, the fourth Pod is created. There are again two Pods running. When another one completes, the fifth and last Pod is created. |
@@ -569,12 +570,11 @@ Until now, the tasks you performed in each Job were identical to each other. For
 At the time of writing, two completion modes are supported: Indexed and NonIndexed. The Jobs you created so far in this chapter were NonIndexed, as this is the default mode. All Pods created by such a Job are indistinguishable from each other. However, if you set the Job’s *completionMode* to Indexed, each Pod is given an index number that you can use to distinguish the Pods. This allows each Pod to perform only a portion of the entire task. See the following table for a comparison between the two completion modes.
 
 Table 17.2 Supported Job completion modes
+
 | Value | Description |
 | --- | --- |
 | NonIndexed | The Job is considered complete when the number of successfully completed Pods created by this Job equals the value of the *spec.completions* field in the Job manifest. All Pods are equal to each other. This is the default mode. |
-| Indexed | Each Pod is given a completion index (starting at *0*) to distinguish the Pods from each other. The Job is considered complete when there is one successfully completed Pod for each index. If a Pod with a particular index fails, the Job controller creates a new Pod with the same index.
-
-The completion index assigned to each Pod is specified in the Pod annotation *batch.kubernetes.io/job-completion-index* and in the *JOB_COMPLETION_INDEX* environment variable in the Pod’s containers. |
+| Indexed | Each Pod is given a completion index (starting at *0*) to distinguish the Pods from each other. The Job is considered complete when there is one successfully completed Pod for each index. If a Pod with a particular index fails, the Job controller creates a new Pod with the same index. The completion index assigned to each Pod is specified in the Pod annotation *batch.kubernetes.io/job-completion-index* and in the *JOB_COMPLETION_INDEX* environment variable in the Pod’s containers. |
 
 
 

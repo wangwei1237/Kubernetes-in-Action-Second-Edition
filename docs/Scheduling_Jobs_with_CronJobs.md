@@ -190,6 +190,7 @@ Table 17.3 Understanding the patterns in a CronJob’s schedule field
 Of course, these values can appear in different time fields and together they define the exact times at which this schedule is triggered. The following table shows examples of different schedules and their explanations.
 
 Table 17.4 Cron examples
+
 | Schedule | Explanation |
 | --- | --- |
 | * * * * * | Every minute (at every minute of every hour, regardless of month, day of the month, or day of the week). |
@@ -315,6 +316,7 @@ Figure 17.12 Comparing the behavior of the three CronJob concurrency policies
 For easier reference, the supported concurrency policies are also explained in the following table.
 
 Table 17.5 Supported concurrency policies
+
 | Value | Description |
 | --- | --- |
 | Allow | Multiple Jobs are allowed to run at the same time. This is the default setting. |
