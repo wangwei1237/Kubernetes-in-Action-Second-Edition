@@ -27,7 +27,7 @@ Like config maps, secrets can be marked immutable by setting the immutable field
 Secrets have a field that config maps do not. The type field specifies the type of the secret and is mainly used for programmatic handling of the secret. You can set the type to any value you want, but there are several built-in types with specific semantics.
 
 #### Understanding built-in secret types
-Mnxg dqx earetc s eetcrs cnu ckr crj hdrx rx vvn kl rkd ltuib-nj pytse, jr rhzm mrxk urx mesqerrntuie ifdnede tlv qrrz vbur, uaecesb horu tcx ypax by vrasiou Ueesubrnte eoonncmtsp yrzr tecexp xrmu re tcoinan uvsael nj ifecpcsi toafsmr ernud cscifpei pxoc. Yvb ofglniwlo albet eilpnasx rqx litbu-nj terces esytp rbzr txsei sr oqr rjmx lx tgrwini qrjc.
+When you create a secret and set its type to one of the built-in types, it must meet the requirements defined for that type, because they are used by various Kubernetes components that expect them to contain values in specific formats under specific keys. The following table explains the built-in secret types that exist at the time of writing this.
 
 Table 9.4 Types of secrets
 
