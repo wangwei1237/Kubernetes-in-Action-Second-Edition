@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: sudo sh ./getuploadurl.sh ${{ github.event.inputs.version }} ${{ secrets.GITHUB_TOKEN }}
+      - run: sudo sh ./getuploadurl.sh ${{ github.event.inputs.version }} ${{ secrets.GITHUB_TOKEN }} | xargs -I {} echo "upload-url={}" >> $GITHUB_OUTPUT
         id: upload-url
     outputs:
       upload-url: ${{ steps.upload-url.outputs.upload-url }} 
@@ -42,6 +42,7 @@ jobs:
           gitbook install
           gitbook build
           cp misc/style.css _book/gitbook
+		  cp misc/tbfed-pagefooter_index.js node_modules/gitbook-plugin-tbfed-pagefooter/index.js
           cp misc/website.css _book/gitbook/gitbook-plugin-fontsettings
       - name: package the book
         working-directory: ${{ github.workspace }}
