@@ -10,7 +10,7 @@ Figure 17.11 The operation of a CronJob
 
 As you can see in the figure, each time the CronJob controller creates a Job, the Job controller subsequently creates the Pod(s), just like when you manually create the Job object. Let’s see this process in action.
 
-17.2.1 Creating a CronJob
+## 17.2.1 Creating a CronJob  
 The following listing shows a CronJob manifest that runs a Job every minute. This Job aggregates the Quiz responses received today and updates the daily quiz statistics. You can find the manifest in the *cj.aggregate-responses-every-minute.yaml* file.
 
 Listing 17.16 A CronJob that runs a Job every minute
@@ -159,7 +159,7 @@ Events:
 
 As can be seen in the command output, the CronJob controller generates a *SuccessfulCreate* Event when it creates a Job, and a *SawCompletedJob* Event when the Job completes.
 
-### 17.2.2 Configuring the schedule
+## 17.2.2 Configuring the schedule
 
 The *schedule* in the CronJob spec is written in crontab format. If you’re not familiar with the this syntax, you can find tutorials and explanations online, but the following section is meant as a short introduction.
 
